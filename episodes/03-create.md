@@ -1,37 +1,37 @@
 ---
-title: Working With Files and Directories
+title: Trabajando con archivos y directorios
 teaching: 30
 exercises: 20
 ---
 
-::::::::::::::::::::::::::::::::::::::: objectives
+::::::::::::::::::::::::::::::::::::::: objetivos
 
-- Create a directory hierarchy that matches a given diagram.
-- Create files in that hierarchy using an editor or by copying and renaming existing files.
-- Delete, copy and move specified files and/or directories.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: questions
-
-- How can I create, copy, and delete files and directories?
-- How can I edit files?
+- Crear una jerarquía de directorios que coincida con un diagrama dado.
+- Crear archivos en esa jerarquía utilizando un editor o copiando y renombrando archivos existentes.
+- Eliminar, copiar y mover archivos y/o directorios especificados.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
+:::::::::::::::::::::::::::::::::::::::: preguntas
 
-## Creating directories
+- ¿Cómo puedo crear, copiar y eliminar archivos y directorios?
+- ¿Cómo puedo editar archivos?
 
-We now know how to explore files and directories,
-but how do we create them in the first place?
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
-In this episode we will learn about creating and moving files and directories,
-using the `exercise-data/writing` directory as an example.
 
-### Step one: see where we are and what we already have
+## Creando directorios
 
-We should still be in the `shell-lesson-data` directory on the Desktop,
-which we can check using:
+Ahora sabemos cómo explorar archivos y directorios,
+¿pero cómo los creamos en primer lugar?
+
+En este episodio aprenderemos a crear y mover archivos y directorios,
+usando el directorio `exercise-data/writing` como ejemplo.
+
+### Paso uno: ver dónde estamos y qué tenemos
+
+Deberíamos seguir estando en el directorio `shell-lesson-data` en el escritorio,
+que podemos verificar usando:
 
 ```bash
 $ pwd
@@ -41,7 +41,7 @@ $ pwd
 /Users/nelle/Desktop/shell-lesson-data
 ```
 
-Next we'll move to the `exercise-data/writing` directory and see what it contains:
+A continuación, nos moveremos al directorio `exercise-data/writing` y veremos qué contiene:
 
 ```bash
 $ cd exercise-data/writing/
@@ -52,20 +52,20 @@ $ ls -F
 haiku.txt  LittleWomen.txt
 ```
 
-### Create a directory
+### Crear un directorio
 
-Let's create a new directory called `thesis` using the command `mkdir thesis`
-(which has no output):
+Creemos un nuevo directorio llamado `thesis` usando el comando `mkdir thesis`
+(que no tiene salida):
 
 ```bash
 $ mkdir thesis
 ```
 
-As you might guess from its name,
-`mkdir` means 'make directory'.
-Since `thesis` is a relative path
-(i.e., does not have a leading slash, like `/what/ever/thesis`),
-the new directory is created in the current working directory:
+Como podrías adivinar por su nombre,
+`mkdir` significa 'crear directorio'.
+Dado que `thesis` es una ruta relativa
+(es decir, no tiene una barra inclinada inicial, como `/what/ever/thesis/`),
+el nuevo directorio se crea en el directorio de trabajo actual:
 
 ```bash
 $ ls -F
@@ -75,23 +75,23 @@ $ ls -F
 haiku.txt  LittleWomen.txt  thesis/
 ```
 
-Since we've just created the `thesis` directory, there's nothing in it yet:
+Dado que acabamos de crear el directorio `thesis`, aún no hay nada en él:
 
 ```bash
 $ ls -F thesis
 ```
 
-Note that `mkdir` is not limited to creating single directories one at a time.
-The `-p` option allows `mkdir` to create a directory with nested subdirectories
-in a single operation:
+Ten en cuenta que `mkdir` no se limita a crear directorios individuales de uno en uno.
+La opción `-p` permite que `mkdir` cree un directorio con subdirectorios anidados
+en una sola operación:
 
 ```bash
 $ mkdir -p ../project/data ../project/results
 ```
 
-The `-R` option to the `ls` command will list all nested subdirectories within a directory.
-Let's use `ls -FR` to recursively list the new directory hierarchy we just created in the
-`project` directory:
+La opción `-R` en el comando `ls` mostrará todos los subdirectorios anidados dentro de un directorio.
+Usemos `ls -FR` para listar de forma recursiva la nueva jerarquía de directorios que acabamos de crear en el
+directorio de `project`:
 
 ```bash
 $ ls -FR ../project
@@ -108,64 +108,63 @@ data/  results/
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
-## Two ways of doing the same thing
+## Dos formas de hacer lo mismo
 
-Using the shell to create a directory is no different than using a file explorer.
-If you open the current directory using your operating system's graphical file explorer,
-the `thesis` directory will appear there too.
-While the shell and the file explorer are two different ways of interacting with the files,
-the files and directories themselves are the same.
+El uso de la línea de comandos para crear un directorio no es diferente de usar un explorador de archivos.
+Si abres el directorio actual utilizando el explorador de archivos gráfico de tu sistema operativo,
+el directorio `thesis` también aparecerá allí.
+Aunque la línea de comandos y el explorador de archivos son dos formas diferentes de interactuar con los archivos,
+los archivos y directorios en sí son los mismos.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
-## Good names for files and directories
+## Buenos nombres para archivos y directorios
 
-Complicated names of files and directories can make your life painful
-when working on the command line. Here we provide a few useful
-tips for the names of your files and directories.
+Los nombres complicados de archivos y directorios pueden complicar tu vida
+cuando trabajas en la línea de comandos. Aquí te ofrecemos algunos consejos útiles
+para los nombres de tus archivos y directorios.
 
-1. Don't use spaces.
+1. No utilices espacios.
 
-Spaces can make a name more meaningful,
-but since spaces are used to separate arguments on the command line
-it is better to avoid them in names of files and directories.
-You can use `-` or `_` instead (e.g. `north-pacific-gyre/` rather than `north pacific gyre/`).
-To test this out, try typing `mkdir north pacific gyre` and see what directory (or directories!)
-are made when you check with `ls -F`.
+Los espacios pueden darle más significado a un nombre,
+pero como se utilizan para separar argumentos en la línea de comandos,
+es mejor evitarlos en los nombres de archivos y directorios.
+Puedes usar `-` o `_` en su lugar (por ejemplo, `north-pacific-gyre/` en lugar de `north pacific gyre/`).
+Para comprobar esto, intenta escribir `mkdir north pacific gyre` y verifica qué directorio(s) se crean cuando verificas con `ls -F`.
 
-2. Don't begin the name with `-` (dash).
+2. No comiences el nombre con `-` (guion).
 
-Commands treat names starting with `-` as options.
+Los comandos tratan los nombres que comienzan con `-` como opciones.
 
-3. Stick with letters, numbers, `.` (period or 'full stop'), `-` (dash) and `_` (underscore).
+3. Usa solo letras, números, `.` (punto), `-` (guion) y `_` (guión bajo).
 
-Many other characters have special meanings on the command line.
-We will learn about some of these during this lesson.
-There are special characters that can cause your command to not work as
-expected and can even result in data loss.
+Muchos otros caracteres tienen significados especiales en la línea de comandos.
+Aprenderemos sobre algunos de ellos durante esta lección.
+Existen caracteres especiales que pueden hacer que tu comando no funcione
+como se espera e incluso pueden provocar la pérdida de datos.
 
-If you need to refer to names of files or directories that have spaces
-or other special characters, you should surround the name in quotes (`""`).
+Si necesitas referirte a nombres de archivos o directorios con espacios
+u otros caracteres especiales, debes encerrar el nombre entre comillas (`""`).
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::::  instructor
 
-Learners can sometimes get trapped within command-line text editors
-such as Vim, Emacs, or Nano. Closing the terminal emulator and opening
-a new one can be frustrating as learners will have to navigate to the
-correct folder again. Our recommendation to mitigate this problem is that
-instructors should use the same text editor as the learners during workshops
-(in most cases Nano).
+A veces los estudiantes pueden quedar atrapados en editores de texto de línea de comandos
+como Vim, Emacs o Nano. Cerrar el emulador de terminal y abrir
+uno nuevo puede ser frustrante ya que los estudiantes tendrán que navegar hasta el
+directorio correcto nuevamente. Nuestra recomendación para mitigar este problema es que
+los instructores usen el mismo editor de texto que los estudiantes durante los talleres
+(en la mayoría de los casos Nano).
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-### Create a text file
+### Crear un archivo de texto
 
-Let's change our working directory to `thesis` using `cd`,
-then run a text editor called Nano to create a file called `draft.txt`:
+Cambiamos nuestro directorio de trabajo a `thesis` usando `cd`,
+y luego ejecutamos un editor de texto llamado Nano para crear un archivo llamado `draft.txt`:
 
 ```bash
 $ cd thesis
@@ -174,52 +173,52 @@ $ nano draft.txt
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
-## Which Editor?
+## ¿Qué editor?
 
-When we say, '`nano` is a text editor' we really do mean 'text'. It can
-only work with plain character data, not tables, images, or any other
-human-friendly media. We use it in examples because it is one of the
-least complex text editors. However, because of this trait, it may
-not be powerful enough or flexible enough for the work you need to do
-after this workshop. On Unix systems (such as Linux and macOS),
-many programmers use [Emacs](https://www.gnu.org/software/emacs/) or
-[Vim](https://www.vim.org/) (both of which require more time to learn),
-or a graphical editor such as [Gedit](https://projects.gnome.org/gedit/)
-or [VScode](https://code.visualstudio.com/). On Windows, you may wish to
-use [Notepad++](https://notepad-plus-plus.org/).  Windows also has a built-in
-editor called `notepad` that can be run from the command line in the same
-way as `nano` for the purposes of this lesson.
+Cuando decimos que '`nano` es un editor de texto', realmente nos referimos a 'texto'. Solo puede
+trabajar con datos de caracteres simples, no con tablas, imágenes ni ningún otro
+medio amigable para el ser humano. Lo utilizamos en los ejemplos porque es uno de los
+editores de texto menos complejos. Sin embargo, debido a esta característica, es posible
+que no sea lo suficientemente potente o flexible para el trabajo que debes hacer
+después de este curso. En sistemas Unix (como Linux y macOS),
+muchos programadores usan [Emacs](https://www.gnu.org/software/emacs/) o
+[Vim](https://www.vim.org/) (ambos requieren más tiempo para aprender),
+o un editor gráfico como [Gedit](https://projects.gnome.org/gedit/)
+o [VScode](https://code.visualstudio.com/). En Windows, puede que desees utilizar
+[Notepad++](https://notepad-plus-plus.org/). Windows también tiene un editor incorporado
+llamado `notepad` que se puede ejecutar desde la línea de comandos de la misma
+forma que `nano` para los propósitos de esta lección.
 
-No matter what editor you use, you will need to know where it searches
-for and saves files. If you start it from the shell, it will (probably)
-use your current working directory as its default location. If you use
-your computer's start menu, it may want to save files in your Desktop or
-Documents directory instead. You can change this by navigating to
-another directory the first time you 'Save As...'
+No importa qué editor uses, tendrás que saber dónde busca
+y guarda archivos. Si lo inicias desde la línea de comandos, (probablemente)
+utilizará el directorio de trabajo actual como su ubicación predeterminada. Si usas
+el menú de inicio de tu computadora, es posible que desee guardar archivos en su escritorio o
+directorio Documentos en su lugar. Puedes cambiar esto navegando a
+otro directorio la primera vez que hagas clic en 'Guardar como...'
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-Let's type in a few lines of text.
+Escribamos algunas líneas de texto.
 
-![](fig/nano-screenshot.png){alt="screenshot of nano text editor in action with the text It's not publish or perish any more, it's share and thrive"}
+![](fig/nano-screenshot.png){alt="captura de pantalla del editor de texto nano en acción con el texto Ya no es publicar o perecer, ahora es compartir y prosperar"}
 
-Once we're happy with our text, we can press <kbd>Ctrl</kbd>\+<kbd>O</kbd>
-(press the <kbd>Ctrl</kbd> or <kbd>Control</kbd> key and, while
-holding it down, press the <kbd>O</kbd> key) to write our data to disk. We will be asked
-to provide a name for the file that will contain our text. Press <kbd>Return</kbd> to accept
-the suggested default of `draft.txt`.
+Una vez que estemos satisfechos con nuestro texto, podemos presionar <kbd>Ctrl</kbd>+\+<kbd>O</kbd>
+(pulsa la tecla <kbd>Ctrl</kbd> o <kbd>Control</kbd> y, mientras
+la mantienes presionada, presiona la tecla <kbd>O</kbd>) para escribir nuestros datos en el disco. Nos pedirán
+que proporcionemos un nombre para el archivo que contendrá nuestro texto. Presiona <kbd>Return</kbd> para aceptar
+la opción predeterminada sugerida: `draft.txt`.
 
-Once our file is saved, we can use <kbd>Ctrl</kbd>\+<kbd>X</kbd> to quit the editor and
-return to the shell.
+Una vez que se guarda nuestro archivo, podemos usar <kbd>Ctrl</kbd>+\+<kbd>X</kbd> para salir del editor y
+volver al shell.
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
-## Control, Ctrl, or ^ Key
+## Control, Ctrl o tecla ^
 
-The Control key is also called the 'Ctrl' key. There are various ways
-in which using the Control key may be described. For example, you may
-see an instruction to press the <kbd>Control</kbd> key and, while holding it down,
-press the <kbd>X</kbd> key, described as any of:
+La tecla Control también se llama tecla 'Ctrl'. Hay varias formas
+en las que se describe el uso de la tecla de Control. Por ejemplo, puedes
+ver una instrucción para presionar la tecla <kbd>Control</kbd> y, mientras la mantienes presionada,
+presionar la tecla <kbd>X</kbd>, que se describe a través de alguno de estos ejemplos:
 
 - `Control-X`
 - `Control+X`
@@ -228,14 +227,14 @@ press the <kbd>X</kbd> key, described as any of:
 - `^X`
 - `C-x`
 
-In nano, along the bottom of the screen you'll see `^G Get Help ^O WriteOut`.
-This means that you can use `Control-G` to get help and `Control-O` to save your
-file.
+En nano, a lo largo de la parte inferior de la pantalla verás `^G Get Help ^O WriteOut`.
+Esto significa que puedes usar `Control-G` para solicitar ayuda y `Control-O` para guardar tu
+archivo.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-`nano` doesn't leave any output on the screen after it exits,
-but `ls` now shows that we have created a file called `draft.txt`:
+`nano` no deja ninguna salida en la pantalla cuando sale,
+pero `ls` ahora muestra que hemos creado un archivo llamado `draft.txt`:
 
 ```bash
 $ ls
@@ -247,50 +246,45 @@ draft.txt
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Creating Files a Different Way
+## Creando Archivos de Otra Manera
 
-We have seen how to create text files using the `nano` editor.
-Now, try the following command:
+Hemos visto cómo crear archivos de texto utilizando el editor `nano`.
+Ahora, prueba el siguiente comando:
 
 ```bash
 $ touch my_file.txt
 ```
 
-1. What did the `touch` command do?
-  When you look at your current directory using the GUI file explorer,
-  does the file show up?
+1. ¿Qué hizo el comando `touch`?
+  Al mirar tu directorio actual utilizando el explorador de archivos gráfico,
+  ¿aparece el archivo?
 
-2. Use `ls -l` to inspect the files.  How large is `my_file.txt`?
+2. Utiliza `ls -l` para inspeccionar los archivos. ¿Qué tamaño tiene `my_file.txt`?
 
-3. When might you want to create a file this way?
+3. ¿Cuándo podrías querer crear un archivo de esta manera?
 
 :::::::::::::::  solution
 
-## Solution
+## Solución
 
-1. The `touch` command generates a new file called `my_file.txt` in
-  your current directory.  You
-  can observe this newly generated file by typing `ls` at the
-  command line prompt.  `my_file.txt` can also be viewed in your
-  GUI file explorer.
+1. El comando `touch` genera un nuevo archivo llamado `my_file.txt` en
+  tu directorio actual. Puedes observar este archivo recién creado escribiendo `ls` enel
+  indicador de línea de comandos. `my_file.txt` también se puede ver en el explorador de archivos gráfico.
 
-2. When you inspect the file with `ls -l`, note that the size of
-  `my_file.txt` is 0 bytes.  In other words, it contains no data.
-  If you open `my_file.txt` using your text editor it is blank.
+2. Al inspeccionar el archivo con `ls -l`, se observa que el tamaño de `my_file.txt` es de 0 bytes.
+  En otras palabras, no contiene datos. Si abres `my_file.txt` utilizando tu editor de texto, estará en blanco.
 
-3. Some programs do not generate output files themselves, but
-  instead require that empty files have already been generated.
-  When the program is run, it searches for an existing file to
-  populate with its output.  The touch command allows you to
-  efficiently generate a blank text file to be used by such
-  programs.
+3. Algunos programas no generan archivos de salida, sino que requieren que los archivos vacíos ya se hayan generado.
+  Cuando se ejecuta el programa, busca un archivo existente para
+  poblar con su salida. El comando `touch` te permite
+  generar eficientemente un archivo de texto en blanco para ser utilizado por estos
+  programas.
 
 :::::::::::::::::::::::::
 
-To avoid confusion later on,
-we suggest removing the file you've just created before proceeding with the rest
-of the episode, otherwise future outputs may vary from those given in the lesson.
-To do this, use the following command:
+Para evitar confusiones más adelante,
+sugerimos eliminar el archivo que acabas de crear antes de continuar con el resto del episodio, de lo contrario, las salidas futuras pueden ser diferentes a las indicadas en la lección.
+Para hacer esto, utiliza el siguiente comando:
 
 ```bash
 $ rm my_file.txt
@@ -300,57 +294,40 @@ $ rm my_file.txt
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
-## What's In A Name?
+## ¿Qué hay en un nombre?
 
-You may have noticed that all of Nelle's files are named 'something dot
-something', and in this part of the lesson, we always used the extension
-`.txt`.  This is just a convention; we can call a file `mythesis` or
-almost anything else we want. However, most people use two-part names
-most of the time to help them (and their programs) tell different kinds
-of files apart. The second part of such a name is called the
-**filename extension** and indicates
-what type of data the file holds: `.txt` signals a plain text file, `.pdf`
-indicates a PDF document, `.cfg` is a configuration file full of parameters
-for some program or other, `.png` is a PNG image, and so on.
+Es posible que hayas notado que todos los archivos de Nelle se llaman 'algo punto algo', y en esta parte de la lección, siempre usamos la extensión `.txt`. Esto es solo una convención. Podemos llamar a un archivo `mythesis` o casi cualquier otra cosa. Sin embargo, la mayoría de las personas usan nombres de dos partes la mayor parte del tiempo para ayudarlos (y a sus programas) a diferenciar diferentes tipos de archivos. El segunda parte de ese nombre se llama **extensión de archivo** e indica qué tipo de datos contiene el archivo: `.txt` representa un archivo de texto sin formato, `.pdf` indica un documento PDF, `.cfg` es un archivo de configuración lleno de parámetros para algún programa u otro, `.png` es una imagen PNG, y así sucesivamente.
 
-This is just a convention, albeit an important one. Files merely contain
-bytes; it's up to us and our programs to interpret those bytes
-according to the rules for plain text files, PDF documents, configuration
-files, images, and so on.
+Esto es solo una convención, aunque importante. Los archivos simplemente contienen bytes; depende de nosotros y nuestros programas interpretar esos bytes según las reglas para archivos de texto sin formato, documentos PDF, archivos de configuración, imágenes, etc.
 
-Naming a PNG image of a whale as `whale.mp3` doesn't somehow
-magically turn it into a recording of whale song, though it *might*
-cause the operating system to associate the file with a music player
-program. In this case, if someone double-clicked `whale.mp3` in a file
-explorer program,the music player will automatically (and erroneously)
-attempt to open the `whale.mp3` file.
+Si llamamos a una imagen PNG de una ballena como `whale.mp3`, no la convertimos automáticamente en una grabación de canto de ballena, aunque *podría* hacer que el sistema operativo asocie el archivo con un programa reproductor de música. En este caso, si alguien hace doble clic en `whale.mp3` en un programa de explorador de archivos, el reproductor de música intentará abrir el archivo `whale.mp3` (y erróneamente intentará abrirlo como una grabación de ballena).
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Moving files and directories
+## Moviendo archivos y directorios
 
-Returning to the `shell-lesson-data/exercise-data/writing` directory,
+Volviendo al directorio `shell-lesson-data/exercise-data/writing`,
 
 ```bash
 $ cd ~/Desktop/shell-lesson-data/exercise-data/writing
 ```
 
-In our `thesis` directory we have a file `draft.txt`
-which isn't a particularly informative name,
-so let's change the file's name using `mv`,
-which is short for 'move':
+En nuestro directorio `thesis` tenemos un archivo `draft.txt`
+que no es un nombre especialmente informativo,
+así que cambiemos el nombre del archivo usando `mv`,
+que significa 'mover':
 
 ```bash
 $ mv thesis/draft.txt thesis/quotes.txt
 ```
 
-The first argument tells `mv` what we're 'moving',
-while the second is where it's to go.
-In this case,
-we're moving `thesis/draft.txt` to `thesis/quotes.txt`,
-which has the same effect as renaming the file.
-Sure enough,
-`ls` shows us that `thesis` now contains one file called `quotes.txt`:
+El primer argumento le dice a `mv` qué estamos 'moviendo',
+mientras que el segundo argumento es dónde debe ir.
+En este caso,
+estamos moviendo `thesis/draft.txt` a `thesis/quotes.txt`,
+lo que tiene el mismo efecto que cambiarle el nombre al archivo.
+Efectivamente,
+`ls` nos muestra que `thesis` ahora contiene un único archivo llamado `quotes.txt`:
 
 ```bash
 $ ls thesis
@@ -360,29 +337,25 @@ $ ls thesis
 quotes.txt
 ```
 
-One must be careful when specifying the target file name, since `mv` will
-silently overwrite any existing file with the same name, which could
-lead to data loss. By default, `mv` will not ask for confirmation before overwriting files.
-However, an additional option, `mv -i` (or `mv --interactive`), will cause `mv` to request
-such confirmation.
+Uno debe tener cuidado al especificar el nombre del archivo de destino, ya que `mv` sobrescribirá silenciosamente cualquier archivo existente con el mismo nombre, lo que podría provocar la pérdida de datos. De forma predeterminada, `mv` no solicitará confirmación antes de sobrescribir los archivos. Sin embargo, una opción adicional, `mv -i` (o `mv --interactive`), solicitará confirmación para la sobrescritura.
 
-Note that `mv` also works on directories.
+Ten en cuenta que `mv` también funciona en directorios.
 
-Let's move `quotes.txt` into the current working directory.
-We use `mv` once again,
-but this time we'll use just the name of a directory as the second argument
-to tell `mv` that we want to keep the filename
-but put the file somewhere new.
-(This is why the command is called 'move'.)
-In this case,
-the directory name we use is the special directory name `.` that we mentioned earlier.
+Moveremos `quotes.txt` al directorio de trabajo actual.
+Usaremos `mv` una vez más,
+pero esta vez usaremos solo el nombre de un directorio como segundo argumento
+para decirle a `mv` que queremos conservar el nombre de archivo
+pero poner el archivo en algún lugar nuevo.
+(Es por eso que el comando se llama 'mover'.)
+En este caso,
+el nombre de directorio que usamos es el nombre especial de directorio `.` que mencionamos anteriormente.
 
 ```bash
 $ mv thesis/quotes.txt .
 ```
 
-The effect is to move the file from the directory it was in to the current working directory.
-`ls` now shows us that `thesis` is empty:
+El efecto es mover el archivo del directorio en el que se encontraba al directorio de trabajo actual.
+`ls` ahora nos muestra que `thesis` está vacío:
 
 ```bash
 $ ls thesis
@@ -392,8 +365,8 @@ $ ls thesis
 $
 ```
 
-Alternatively, we can confirm the file `quotes.txt` is no longer present in the `thesis` directory
-by explicitly trying to list it:
+Alternativamente, podemos confirmar que el archivo `quotes.txt` ya no está presente en el directorio `thesis`
+intentando listar explícitamente:
 
 ```bash
 $ ls thesis/quotes.txt
@@ -403,9 +376,9 @@ $ ls thesis/quotes.txt
 ls: cannot access 'thesis/quotes.txt': No such file or directory
 ```
 
-`ls` with a filename or directory as an argument only lists the requested file or directory.
-If the file given as the argument doesn't exist, the shell returns an error as we saw above.
-We can use this to see that `quotes.txt` is now present in our current directory:
+`ls` con un nombre de archivo o directorio como argumento solo muestra el archivo o directorio solicitado.
+Si el archivo dado como argumento no existe, el shell devuelve un error como el que vimos anteriormente.
+Podemos usar esto para ver que `quotes.txt` ahora está presente en nuestro directorio actual:
 
 ```bash
 $ ls quotes.txt
@@ -417,11 +390,11 @@ quotes.txt
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Moving Files to a new folder
+## Mover archivos a una nueva carpeta
 
-After running the following commands,
-Jamie realizes that she put the files `sucrose.dat` and `maltose.dat` into the wrong folder.
-The files should have been placed in the `raw` folder.
+Después de ejecutar los siguientes comandos,
+Jamie se da cuenta de que colocó los archivos `sucrose.dat` y `maltose.dat` en la carpeta equivocada.
+Los archivos deberían haber estado en la carpeta `raw`.
 
 ```bash
 $ ls -F
@@ -431,8 +404,8 @@ fructose.dat glucose.dat maltose.dat sucrose.dat
 $ cd analyzed
 ```
 
-Fill in the blanks to move these files to the `raw/` folder
-(i.e. the one she forgot to put them in)
+Rellena los espacios en blanco para mover estos archivos a la carpeta `raw/`
+(es decir, la que olvidó agregar).
 
 ```bash
 $ mv sucrose.dat maltose.dat ____/____
@@ -440,26 +413,26 @@ $ mv sucrose.dat maltose.dat ____/____
 
 :::::::::::::::  solution
 
-## Solution
+## Solución
 
 ```bash
 $ mv sucrose.dat maltose.dat ../raw
 ```
 
-Recall that `..` refers to the parent directory (i.e. one above the current directory)
-and that `.` refers to the current directory.
+Recuerda que `..` se refiere al directorio superior (uno por encima del directorio actual)
+y que `.` se refiere al directorio actual.
 
 :::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Copying files and directories
+## Copiando archivos y directorios
 
-The `cp` command works very much like `mv`,
-except it copies a file instead of moving it.
-We can check that it did the right thing using `ls`
-with two paths as arguments --- like most Unix commands,
-`ls` can be given multiple paths at once:
+El comando `cp` funciona de manera muy similar a `mv`,
+excepto que copia un archivo en lugar de moverlo.
+Podemos verificar que hizo lo correcto usando `ls`
+con dos rutas como argumentos --- al igual que la mayoría de los comandos Unix,
+`ls` puede recibir múltiples rutas a la vez:
 
 ```bash
 $ cp quotes.txt thesis/quotations.txt
@@ -470,15 +443,15 @@ $ ls quotes.txt thesis/quotations.txt
 quotes.txt   thesis/quotations.txt
 ```
 
-We can also copy a directory and all its contents by using the
-[recursive](https://en.wikipedia.org/wiki/Recursion) option `-r`,
-e.g. to back up a directory:
+También podemos copiar un directorio y todos sus contenidos usando la opción
+[recursiva](https://en.wikipedia.org/wiki/Recursion) `-r`,
+por ejemplo, para hacer una copia de seguridad de un directorio:
 
 ```bash
 $ cp -r thesis thesis_backup
 ```
 
-We can check the result by listing the contents of both the `thesis` and `thesis_backup` directory:
+Podemos verificar el resultado listando el contenido del directorio `thesis` y `thesis_backup`:
 
 ```bash
 $ ls thesis thesis_backup
@@ -492,8 +465,8 @@ thesis_backup:
 quotations.txt
 ```
 
-It is important to include the `-r` flag. If you want to copy a directory and you omit this option
-you will see a message that the directory has been omitted because `-r not specified`.
+Es importante incluir la opción `-r`. Si deseas copiar un directorio y omites esta opción,
+verás un mensaje que indica que se omitió el directorio porque no se especificó `-r`.
 
 ``` bash
 $ cp thesis thesis_backup
@@ -503,154 +476,71 @@ cp: -r not specified; omitting directory 'thesis'
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Renaming Files
+## Renombrar archivos
 
-Suppose that you created a plain-text file in your current directory to contain a list of the
-statistical tests you will need to do to analyze your data, and named it `statstics.txt`
+Supongamos que creaste un archivo de texto sin formato en tu directorio actual para contener una lista de las
+pruebas estadísticas que tendrás que realizar para analizar tus datos y lo nombraste `statstics.txt`
 
-After creating and saving this file you realize you misspelled the filename! You want to
-correct the mistake, which of the following commands could you use to do so?
-
-1. `cp statstics.txt statistics.txt`
-2. `mv statstics.txt statistics.txt`
-3. `mv statstics.txt .`
-4. `cp statstics.txt .`
-
-:::::::::::::::  solution
-
-## Solution
-
-1. No.  While this would create a file with the correct name,
-  the incorrectly named file still exists in the directory
-  and would need to be deleted.
-2. Yes, this would work to rename the file.
-3. No, the period(.) indicates where to move the file, but does not provide a new file name;
-  identical file names
-  cannot be created.
-4. No, the period(.) indicates where to copy the file, but does not provide a new file name;
-  identical file names cannot be created.
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Moving and Copying
-
-What is the output of the closing `ls` command in the sequence shown below?
+¡Después de crear y guardar este archivo te das cuenta de que cometiste un error ortográfico en el nombre! Quieres
+corregir el error, ¿qué comando(s) cubiertos en esta lección necesita ejecutar
+para que los comandos siguientes produzcan el resultado que se muestra?
 
 ```bash
-$ pwd
+$ ls -F
 ```
 
 ```output
-/Users/jamie/data
+analyzed/ raw/
 ```
 
 ```bash
-$ ls
+$ ls analyzed
 ```
 
 ```output
-proteins.dat
+fructose.dat    sucrose.dat
 ```
-
-```bash
-$ mkdir recombined
-$ mv proteins.dat recombined/
-$ cp recombined/proteins.dat ../proteins-saved.dat
-$ ls
-```
-
-1. `proteins-saved.dat recombined`
-2. `recombined`
-3. `proteins.dat recombined`
-4. `proteins-saved.dat`
 
 :::::::::::::::  solution
 
-## Solution
-
-We start in the `/Users/jamie/data` directory, and create a new folder called `recombined`.
-The second line moves (`mv`) the file `proteins.dat` to the new folder (`recombined`).
-The third line makes a copy of the file we just moved.
-The tricky part here is where the file was copied to.
-Recall that `..` means 'go up a level', so the copied file is now in `/Users/jamie`.
-Notice that `..` is interpreted with respect to the current working
-directory, **not** with respect to the location of the file being copied.
-So, the only thing that will show using ls (in `/Users/jamie/data`) is the recombined folder.
-
-1. No, see explanation above.  `proteins-saved.dat` is located at `/Users/jamie`
-2. Yes
-3. No, see explanation above.  `proteins.dat` is located at `/Users/jamie/data/recombined`
-4. No, see explanation above.  `proteins-saved.dat` is located at `/Users/jamie`
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Removing files and directories
-
-Returning to the `shell-lesson-data/exercise-data/writing` directory,
-let's tidy up this directory by removing the `quotes.txt` file we created.
-The Unix command we'll use for this is `rm` (short for 'remove'):
-
-```bash
-$ rm quotes.txt
-```
-
-We can confirm the file has gone using `ls`:
-
-```bash
-$ ls quotes.txt
-```
-
-```error
-ls: cannot access 'quotes.txt': No such file or directory
-```
-
-:::::::::::::::::::::::::::::::::::::::::  callout
-
-## Deleting Is Forever
-
-The Unix shell doesn't have a trash bin that we can recover deleted
-files from (though most graphical interfaces to Unix do).  Instead,
-when we delete files, they are unlinked from the file system so that
-their storage space on disk can be recycled. Tools for finding and
-recovering deleted files do exist, but there's no guarantee they'll
-work in any particular situation, since the computer may recycle the
-file's disk space right away.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Using `rm` Safely
-
-What happens when we execute `rm -i thesis_backup/quotations.txt`?
-Why would we want this protection when using `rm`?
-
-:::::::::::::::  solution
-
-## Solution
+## Solución
 
 ```output
 rm: remove regular file 'thesis_backup/quotations.txt'? y
 ```
 
-The `-i` option will prompt before (every) removal (use <kbd>Y</kbd> to confirm deletion
-or <kbd>N</kbd> to keep the file).
-The Unix shell doesn't have a trash bin, so all the files removed will disappear forever.
-By using the `-i` option, we have the chance to check that we are deleting only the files
-that we want to remove.
+Al ejecutar el comando `rm -i thesis_backup/quotations.txt` se muestra el mensaje:
+`rm: ¿eliminar archivo regular 'thesis_backup/quotations.txt'? y`
 
-:::::::::::::::::::::::::
+La opción `-i` solicita una confirmación antes de eliminar (cada) archivo (usa <kbd>Y</kbd> para confirmar la eliminación
+o <kbd>N</kbd> para conservar el archivo).
+La línea de comandos no tiene una papelera de reciclaje de la que se puedan recuperar los archivos eliminados (aunque la mayoría de las interfaces gráficas de Unix sí la tienen). En su lugar, cuando eliminamos archivos, se desvinculan del sistema de archivos para que su espacio de almacenamiento en disco pueda reciclarse. Sí existen herramientas para buscar y recuperar archivos eliminados, pero no hay garantía de que funcionen en cualquier situación en particular, ya que la computadora puede reciclar el espacio en disco del archivo de inmediato.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-If we try to remove the `thesis` directory using `rm thesis`,
-we get an error message:
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Usar `rm` de manera segura
+
+¿Qué sucede cuando ejecutamos `rm -i thesis_backup/quotations.txt`?
+¿Por qué querríamos esta protección al usar `rm`?
+
+:::::::::::::::::::::::::::::::::::::::  solution
+
+## Solución
+
+```output
+rm: remove regular file 'thesis_backup/quotations.txt'? y
+```
+
+La opción `-i` solicitará confirmación antes de (cada) eliminación (usa <kbd>Y</kbd> para confirmar la eliminación
+o <kbd>N</kbd> para conservar el archivo).
+La línea de comandos de Unix no tiene una papelera de reciclaje, por lo que todos los archivos eliminados desaparecerán para siempre. Al usar la opción `-i`, tenemos la oportunidad de verificar que estamos eliminando solo los archivos que deseamos eliminar.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+Si intentamos eliminar el directorio `thesis` usando `rm thesis`,
+obtenemos un mensaje de error:
 
 ```bash
 $ rm thesis
@@ -660,41 +550,39 @@ $ rm thesis
 rm: cannot remove 'thesis': Is a directory
 ```
 
-This happens because `rm` by default only works on files, not directories.
+Esto sucede porque `rm` por defecto solo trabaja con archivos, no con directorios.
 
-`rm` can remove a directory *and all its contents* if we use the
-recursive option `-r`, and it will do so *without any confirmation prompts*:
+`rm` puede eliminar un directorio *y todos sus contenidos* si usamos la
+opción recursiva `-r`, y lo hará *sin solicitar ninguna confirmación*:
 
 ```bash
 $ rm -r thesis
 ```
 
-Given that there is no way to retrieve files deleted using the shell,
-`rm -r` *should be used with great caution*
-(you might consider adding the interactive option `rm -r -i`).
+Dado que no hay forma de recuperar archivos eliminados utilizando la línea de comandos,
+`rm -r` *debe usarse con mucho cuidado*
+(es posible que desees agregar la opción interactiva `rm -r -i`).
 
-## Operations with multiple files and directories
+## Operaciones con múltiples archivos y directorios
 
-Oftentimes one needs to copy or move several files at once.
-This can be done by providing a list of individual filenames,
-or specifying a naming pattern using wildcards. Wildcards are
-special characters that can be used to represent unknown characters
-or sets of characters when navigating the Unix file system.
+Muchas veces se necesita copiar o mover varios archivos a la vez.
+Esto se puede hacer proporcionando una lista de nombres de archivos individuales
+o especificando un patrón de nombres utilizando comodines. Los comodines son
+caracteres especiales que se utilizan para representar caracteres desconocidos
+o conjuntos de caracteres cuando se navega por el sistema de archivos de Unix.
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Copy with Multiple Filenames
+## Copiar con Múltiples Nombres de Archivo
 
-For this exercise, you can test the commands in the `shell-lesson-data/exercise-data` directory.
-
-In the example below, what does `cp` do when given several filenames and a directory name?
+En el siguiente ejemplo, ¿qué hace `cp` cuando se le dan varios nombres de archivo y un nombre de directorio?
 
 ```bash
 $ mkdir backup
 $ cp creatures/minotaur.dat creatures/unicorn.dat backup/
 ```
 
-In the example below, what does `cp` do when given three or more file names?
+En el siguiente ejemplo, ¿qué hace `cp` cuando se le dan tres o más nombres de archivo?
 
 ```bash
 $ cd creatures
@@ -709,66 +597,62 @@ basilisk.dat  minotaur.dat  unicorn.dat
 $ cp minotaur.dat unicorn.dat basilisk.dat
 ```
 
-:::::::::::::::  solution
+:::::::::::::::::::::::::::::::::::::::  solution
 
-## Solution
+## Solución
 
-If given more than one file name followed by a directory name
-(i.e. the destination directory must be the last argument),
-`cp` copies the files to the named directory.
+Si se le dan más de un nombre de archivo seguido de un nombre de directorio
+(es decir, el directorio de destino debe ser el último argumento),
+`cp` copiará los archivos al directorio especificado.
 
-If given three file names, `cp` throws an error such as the one below,
-because it is expecting a directory name as the last argument.
+Si se le dan tres nombres de archivo, `cp` lanzará un error como el que se muestra a continuación,
+porque está esperando un nombre de directorio como último argumento.
 
 ```error
 cp: target 'basilisk.dat' is not a directory
 ```
 
-:::::::::::::::::::::::::
-
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-### Using wildcards for accessing multiple files at once
+### Usando comodines para acceder a varios archivos a la vez
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
-## Wildcards
+## Comodines
 
-`*` is a **wildcard**, which represents zero or more other characters.
-Let's consider the `shell-lesson-data/exercise-data/alkanes` directory:
-`*.pdb` represents `ethane.pdb`, `propane.pdb`, and every
-file that ends with '.pdb'. On the other hand, `p*.pdb` only represents
-`pentane.pdb` and `propane.pdb`, because the 'p' at the front can only
-represent filenames that begin with the letter 'p'.
+`*` es un **comodín**, que representa cero o más caracteres en otro nombre de archivo. Así que `*.txt` representa `ethane.pdb`, `propane.pdb` y todos
+los archivos que terminan con '.pdb'. Por otro lado, `p*.pdb` solo representa
+`pentane.pdb` y `propane.pdb`, porque la 'p' al inicio solo puede
+representar nombres de archivo que comienzan con la letra 'p'.
 
-`?` is also a wildcard, but it represents exactly one character.
-So `?ethane.pdb` could represent `methane.pdb` whereas
-`*ethane.pdb` represents both `ethane.pdb` and `methane.pdb`.
+`?` también es un comodín, pero representa exactamente un carácter.
+Entonces, `?ethane.pdb` podría representar `methane.pdb`, mientras
+que `*ethane.pdb` representa tanto `ethane.pdb` como `methane.pdb`.
 
-Wildcards can be used in combination with each other. For example,
-`???ane.pdb` indicates three characters followed by `ane.pdb`,
-giving `cubane.pdb  ethane.pdb  octane.pdb`.
+Los comodines se pueden utilizar en combinación entre sí. Por ejemplo,
+`???ane.pdb` indica tres caracteres seguidos de `ane.pdb`,
+lo que nos dará `cubane.pdb  ethane.pdb  octane.pdb`.
 
-When the shell sees a wildcard, it expands the wildcard to create a
-list of matching filenames *before* running the preceding command.
-As an exception, if a wildcard expression does not match
-any file, Bash will pass the expression as an argument to the command
-as it is. For example, typing `ls *.pdf` in the `alkanes` directory
-(which contains only files with names ending with `.pdb`) results in
-an error message that there is no file called `*.pdf`.
-However, generally commands like `wc` and `ls` see the lists of
-file names matching these expressions, but not the wildcards
-themselves. It is the shell, not the other programs, that expands
-the wildcards.
+
+Cuando el shell encuentra un comodín, expande el comodín para crear una
+lista de nombres de archivo coincidentes *antes* de que se ejecute el comando anterior.
+Como excepción, si una expresión de comodín no coincide
+con ningún archivo, Bash pasará la expresión como un argumento al comando
+tal cual aparece. Por ejemplo, escribir `ls *.pdf` en el directorio `alkanes`
+(que contiene solo archivos con nombres que terminan en `.pdb`) resulta en
+un mensaje de error de que no hay un archivo llamado `*.pdf`.
+Sin embargo, generalmente comandos como `wc` y `ls` ven las listas de
+nombres de archivo que coinciden con esas expresiones, pero no los comodines
+mismos. Es el shell, no otros programas, el que expande
+los comodines.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## List filenames matching a pattern
+## Listar nombres de archivo que coinciden con un patrón
 
-When run in the `alkanes` directory, which `ls` command(s) will
-produce this output?
+¿Cuál de los siguientes comandos `ls` producirá esta salida cuando se ejecute en el directorio `alkanes`?
 
 `ethane.pdb   methane.pdb`
 
@@ -779,25 +663,23 @@ produce this output?
 
 :::::::::::::::  solution
 
-## Solution
+## Solución
 
-The solution is `3.`
+La solución es `3.`
 
-`1.` shows all files whose names contain zero or more characters (`*`)
-followed by the letter `t`,
-then zero or more characters (`*`) followed by `ane.pdb`.
-This gives `ethane.pdb  methane.pdb  octane.pdb  pentane.pdb`.
+`1.` muestra todos los archivos cuyos nombres contienen cero o más caracteres (`*`) seguidos de la letra `t`,
+luego cero o más caracteres (`*`) seguidos de `ane.pdb`.
+Esto nos da como resultado `ethane.pdb  methane.pdb  octane.pdb  pentane.pdb`.
 
-`2.` shows all files whose names start with zero or more characters (`*`) followed by
-the letter `t`,
-then a single character (`?`), then `ne.` followed by zero or more characters (`*`).
-This will give us `octane.pdb` and `pentane.pdb` but doesn't match anything
-which ends in `thane.pdb`.
+`2.` muestra todos los archivos cuyos nombres comienzan con cero o más caracteres (`*`) seguidos de
+la letra `t`, luego un solo carácter (`?`), luego `ne.` seguido de cero o más caracteres (`*`).
+Esto nos dará `octane.pdb` y `pentane.pdb` pero no coincide con nada
+que termine en `thane.pdb`.
 
-`3.` fixes the problems of option 2 by matching two characters (`??`) between `t` and `ne`.
-This is the solution.
+`3.` soluciona los problemas de la opción 2 al coincidir dos caracteres (`??`) entre `t` y `ne`.
+Esta es la solución.
 
-`4.` only shows files starting with `ethane.`.
+`4.` solo muestra archivos que comienzan con `ethane.`.
 
 :::::::::::::::::::::::::
 
@@ -805,10 +687,9 @@ This is the solution.
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## More on Wildcards
+## Más sobre comodines
 
-Sam has a directory containing calibration data, datasets, and descriptions of
-the datasets:
+Sam tiene un directorio que contiene datos de calibración, conjuntos de datos y descripciones de los conjuntos de datos:
 
 ```bash
 .
@@ -832,9 +713,9 @@ the datasets:
     └── all_november_files
 ```
 
-Before heading off to another field trip, she wants to back up her data and
-send some datasets to her colleague Bob. Sam uses the following commands
-to get the job done:
+Antes de irse a otro viaje de campo, quiere hacer una copia de seguridad de sus datos y
+enviar algunos conjuntos de datos a su colega Bob. Sam utiliza los siguientes comandos
+para hacer el trabajo:
 
 ```bash
 $ cp *dataset* backup/datasets
@@ -843,9 +724,9 @@ $ cp 2015-____-____ send_to_bob/all_november_files/
 $ cp ____ send_to_bob/all_datasets_created_on_a_23rd/
 ```
 
-Help Sam by filling in the blanks.
+Ayuda a Sam llenando los espacios en blanco.
 
-The resulting directory structure should look like this
+La estructura final del directorio debería verse así:
 
 ```bash
 .
@@ -893,7 +774,7 @@ The resulting directory structure should look like this
 
 :::::::::::::::  solution
 
-## Solution
+## Solución
 
 ```bash
 $ cp *calibration.txt backup/calibration
@@ -905,146 +786,34 @@ $ cp *-23-dataset* send_to_bob/all_datasets_created_on_a_23rd/
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Organizing Directories and Files
-
-Jamie is working on a project, and she sees that her files aren't very well
-organized:
-
+:::::::::::::::::::::::::::::::: setSizeAll summarizes the size of the files and subdirectories inside a directory. It can accept an optional argument to specify a different format for the sizes. See examples below:
 ```bash
-$ ls -F
+$ setSizeAll
 ```
+
+	Output:
 
 ```output
-analyzed/  fructose.dat    raw/   sucrose.dat
+400
 ```
-
-The `fructose.dat` and `sucrose.dat` files contain output from her data
-analysis. What command(s) covered in this lesson does she need to run
-so that the commands below will produce the output shown?
 
 ```bash
-$ ls -F
+$ setSizeAll -h
 ```
+
+	Output:
 
 ```output
-analyzed/   raw/
+1.15K
 ```
 
 ```bash
-$ ls analyzed
+$ setSizeAll -m
 ```
+
+	Output:
 
 ```output
-fructose.dat    sucrose.dat
+0.00M
 ```
 
-:::::::::::::::  solution
-
-## Solution
-
-```bash
-mv *.dat analyzed
-```
-
-Jamie needs to move her files `fructose.dat` and `sucrose.dat` to the `analyzed` directory.
-The shell will expand \*.dat to match all .dat files in the current directory.
-The `mv` command then moves the list of .dat files to the 'analyzed' directory.
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Reproduce a folder structure
-
-You're starting a new experiment and would like to duplicate the directory
-structure from your previous experiment so you can add new data.
-
-Assume that the previous experiment is in a folder called `2016-05-18`,
-which contains a `data` folder that in turn contains folders named `raw` and
-`processed` that contain data files.  The goal is to copy the folder structure
-of the `2016-05-18` folder into a folder called `2016-05-20`
-so that your final directory structure looks like this:
-
-```output
-2016-05-20/
-└── data
-   ├── processed
-   └── raw
-```
-
-Which of the following set of commands would achieve this objective?
-What would the other commands do?
-
-```bash
-$ mkdir 2016-05-20
-$ mkdir 2016-05-20/data
-$ mkdir 2016-05-20/data/processed
-$ mkdir 2016-05-20/data/raw
-```
-
-```bash
-$ mkdir 2016-05-20
-$ cd 2016-05-20
-$ mkdir data
-$ cd data
-$ mkdir raw processed
-```
-
-```bash
-$ mkdir 2016-05-20/data/raw
-$ mkdir 2016-05-20/data/processed
-```
-
-```bash
-$ mkdir -p 2016-05-20/data/raw
-$ mkdir -p 2016-05-20/data/processed
-```
-
-```bash
-$ mkdir 2016-05-20
-$ cd 2016-05-20
-$ mkdir data
-$ mkdir raw processed
-```
-
-:::::::::::::::  solution
-
-## Solution
-
-The first two sets of commands achieve this objective.
-The first set uses relative paths to create the top-level directory before
-the subdirectories.
-
-The third set of commands will give an error because the default behavior of `mkdir`
-won't create a subdirectory of a non-existent directory:
-the intermediate level folders must be created first.
-
-The fourth set of commands achieve this objective. Remember, the `-p` option,
-followed by a path of one or more
-directories, will cause `mkdir` to create any intermediate subdirectories as required.
-
-The final set of commands generates the 'raw' and 'processed' directories at the same level
-as the 'data' directory.
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: keypoints
-
-- `cp [old] [new]` copies a file.
-- `mkdir [path]` creates a new directory.
-- `mv [old] [new]` moves (renames) a file or directory.
-- `rm [path]` removes (deletes) a file.
-- `*` matches zero or more characters in a filename, so `*.txt` matches all files ending in `.txt`.
-- `?` matches any single character in a filename, so `?.txt` matches `a.txt` but not `any.txt`.
-- Use of the Control key may be described in many ways, including `Ctrl-X`, `Control-X`, and `^X`.
-- The shell does not have a trash bin: once something is deleted, it's really gone.
-- Most files' names are `something.extension`. The extension isn't required, and doesn't guarantee anything, but is normally used to indicate the type of data in the file.
-- Depending on the type of work you do, you may need a more powerful text editor than Nano.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::

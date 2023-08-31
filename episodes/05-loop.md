@@ -1,197 +1,195 @@
 ---
-title: Loops
+title: Bucles
 teaching: 40
 exercises: 10
 ---
 
-::::::::::::::::::::::::::::::::::::::: objectives
+::::::::::::::::::::::::::::::::::::::: objetivos
 
-- Write a loop that applies one or more commands separately to each file in a set of files.
-- Trace the values taken on by a loop variable during execution of the loop.
-- Explain the difference between a variable's name and its value.
-- Explain why spaces and some punctuation characters shouldn't be used in file names.
-- Demonstrate how to see what commands have recently been executed.
-- Re-run recently executed commands without retyping them.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: questions
-
-- How can I perform the same actions on many different files?
+- Escribir un bucle que aplique uno o más comandos por separado a cada archivo en un conjunto de archivos.
+- Rastrear los valores que toma una variable de bucle durante la ejecución del bucle.
+- Explicar la diferencia entre el nombre de una variable y su valor.
+- Explicar por qué no se deben utilizar espacios y algunos caracteres de puntuación en los nombres de archivo.
+- Demostrar cómo ver qué comandos se han ejecutado recientemente.
+- Volver a ejecutar comandos ejecutados recientemente sin volver a escribirlos.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-**Loops** are a programming construct which allow us to repeat a command or set of commands
-for each item in a list.
-As such they are key to productivity improvements through automation.
-Similar to wildcards and tab completion, using loops also reduces the
-amount of typing required (and hence reduces the number of typing mistakes).
+:::::::::::::::::::::::::::::::::::::::: preguntas
 
-Suppose we have several hundred genome data files named `basilisk.dat`, `minotaur.dat`, and
+- ¿Cómo puedo realizar las mismas acciones en muchos archivos diferentes?
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+Los **bucles** son una construcción de programación que nos permite repetir un comando o conjunto de comandos
+para cada elemento en una lista.
+Como tal, son clave para mejorar la productividad a través de la automatización.
+Al igual que los comodines y la autocompletación de pestañas, el uso de bucles también reduce la
+cantidad de escritura requerida (y por lo tanto reduce la cantidad de errores de escritura).
+
+Supongamos que tenemos varios archivos de datos de genoma llamados `basilisk.dat`, `minotaur.dat` y
 `unicorn.dat`.
-For this example, we'll use the `exercise-data/creatures` directory which only has three
-example files,
-but the principles can be applied to many many more files at once.
+Para este ejemplo, usaremos el directorio `exercise-data/creatures` que solo tiene tres
+archivos de ejemplo,
+pero los principios se pueden aplicar a muchos más archivos a la vez.
 
-The structure of these files is the same: the common name, classification, and updated date are
-presented on the first three lines, with DNA sequences on the following lines.
-Let's look at the files:
+La estructura de estos archivos es la misma: se presentan el nombre común, la clasificación y la fecha de actualización
+en las primeras tres líneas, con secuencias de ADN en las líneas siguientes. Veamos los archivos:
 
 ```bash
 $ head -n 5 basilisk.dat minotaur.dat unicorn.dat
 ```
 
-We would like to print out the classification for each species, which is given on the second
-line of each file.
-For each file, we would need to execute the command `head -n 2` and pipe this to `tail -n 1`.
-We'll use a loop to solve this problem, but first let's look at the general form of a loop,
-using the pseudo-code below:
+Nos gustaría imprimir la clasificación de cada especie, que se encuentra en la segunda
+línea de cada archivo.
+Para cada archivo, tendríamos que ejecutar el comando `head -n 2` y enviarlo a `tail -n 1`.
+Usaremos un bucle para resolver este problema, pero primero vamos a ver la forma general de un bucle,
+usando el seudocódigo a continuación:
 
 ```bash
-# The word "for" indicates the start of a "For-loop" command
-for thing in list_of_things 
-#The word "do" indicates the start of job execution list
-do 
-    # Indentation within the loop is not required, but aids legibility
-    operation_using/command $thing 
-# The word "done" indicates the end of a loop
-done  
+# La palabra "for" indica el comienzo de un comando "For-loop"
+para cosa en lista_de_cosas `
+# La palabra "do" indica el comienzo de una lista de ejecución de trabajos
+hacer
+    # La indentación dentro del bucle no es necesaria, pero ayuda a la legibilidad
+    operación_usando / comando $cosa
+# La palabra "done" indica el final de un bucle
+hecho
 ```
 
-and we can apply this to our example like this:
+y podemos aplicarlo a nuestro ejemplo de esta manera:
 
 ```bash
 $ for filename in basilisk.dat minotaur.dat unicorn.dat
-> do
+> hacer
 >     echo $filename
 >     head -n 2 $filename | tail -n 1
-> done
+> hecho
 ```
 
 ```output
 basilisk.dat
-CLASSIFICATION: basiliscus vulgaris
+CLASIFICACIÓN: basiliscus vulgaris
 minotaur.dat
-CLASSIFICATION: bos hominus
+CLASIFICACIÓN: bos hominus
 unicorn.dat
-CLASSIFICATION: equus monoceros
+CLASIFICACIÓN: equus monoceros
 ```
 
-:::::::::::::::::::::::::::::::::::::::::  callout
+::::::::::::::::::::::::::::::::::::::::: destacado
 
-## Follow the Prompt
+## Sigue el indicio
 
-The shell prompt changes from `$` to `>` and back again as we were
-typing in our loop. The second prompt, `>`, is different to remind
-us that we haven't finished typing a complete command yet. A semicolon, `;`,
-can be used to separate two commands written on a single line.
-
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-When the shell sees the keyword `for`,
-it knows to repeat a command (or group of commands) once for each item in a list.
-Each time the loop runs (called an iteration), an item in the list is assigned in sequence to
-the **variable**, and the commands inside the loop are executed, before moving on to
-the next item in the list.
-Inside the loop,
-we call for the variable's value by putting `$` in front of it.
-The `$` tells the shell interpreter to treat
-the variable as a variable name and substitute its value in its place,
-rather than treat it as text or an external command.
-
-In this example, the list is three filenames: `basilisk.dat`, `minotaur.dat`, and `unicorn.dat`.
-Each time the loop iterates, we first use `echo` to print the value that the variable
-`$filename` currently holds. This is not necessary for the result, but beneficial for us here to
-have an easier time to follow along.
-Next, we will assign a file name to the variable `filename`
-and run the `head` command.
-The first time through the loop,
-`$filename` is `basilisk.dat`.
-The interpreter runs the command `head` on `basilisk.dat`
-and pipes the first two lines to the `tail` command,
-which then prints the second line of `basilisk.dat`.
-For the second iteration, `$filename` becomes
-`minotaur.dat`. This time, the shell runs `head` on `minotaur.dat`
-and pipes the first two lines to the `tail` command,
-which then prints the second line of `minotaur.dat`.
-For the third iteration, `$filename` becomes
-`unicorn.dat`, so the shell runs the `head` command on that file,
-and `tail` on the output of that.
-Since the list was only three items, the shell exits the `for` loop.
-
-:::::::::::::::::::::::::::::::::::::::::  callout
-
-## Same Symbols, Different Meanings
-
-Here we see `>` being used as a shell prompt, whereas `>` is also
-used to redirect output.
-Similarly, `$` is used as a shell prompt, but, as we saw earlier,
-it is also used to ask the shell to get the value of a variable.
-
-If the *shell* prints `>` or `$` then it expects you to type something,
-and the symbol is a prompt.
-
-If *you* type `>` or `$` yourself, it is an instruction from you that
-the shell should redirect output or get the value of a variable.
+El símbolo de la shell cambia de `$` a `>` y viceversa mientras estábamos
+escribiendo nuestro bucle. El segundo indicio, `>`, es diferente para recordarnos
+que no hemos terminado de escribir un comando completo todavía. Se puede usar un punto y coma, ';',
+para separar dos comandos escritos en una sola línea.
 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-When using variables it is also
-possible to put the names into curly braces to clearly delimit the variable
-name: `$filename` is equivalent to `${filename}`, but is different from
-`${file}name`. You may find this notation in other people's programs.
+Cuando la shell ve la palabra clave `for`,
+sabe que debe repetir un comando (o grupo de comandos) una vez por cada elemento en una lista.
+Cada vez que se ejecuta el bucle (llamado iteración), se le asigna un elemento de la lista
+a la **variable** en secuencia, y los comandos dentro del bucle se ejecutan antes de pasar
+al siguiente elemento de la lista.
+Dentro del bucle,
+llamamos al valor de la variable poniendo `$` delante.
+El `$` le indica al intérprete de la shell que trate
+la variable como un nombre de variable y sustituya su valor en su lugar,
+en lugar de tratarlo como texto o como un comando externo.
 
-We have called the variable in this loop `filename`
-in order to make its purpose clearer to human readers.
-The shell itself doesn't care what the variable is called;
-if we wrote this loop as:
+En este ejemplo, la lista son tres nombres de archivo: `basilisk.dat`, `minotaur.dat`, y `unicorn.dat`.
+Cada vez que se itera el bucle, primero usamos `echo` para imprimir el valor que la variable
+`$filename` tiene actualmente. Esto no es necesario para el resultado, pero beneficioso para nosotros aquí para
+seguir más fácilmente. A continuación, asignaremos un nombre de archivo a la variable `filename`
+y ejecutaremos el comando `head`.
+La primera vez que se ejecutó el bucle,
+`$filename` es `basilisk.dat`.
+El intérprete ejecuta el comando `head` en `basilisk.dat`
+y envía las dos primeras líneas al comando `tail`,
+que luego imprime la segunda línea de `basilisk.dat`.
+Para la segunda iteración, `$filename` se convierte en
+`minotaur.dat`. Esta vez, la shell ejecuta `head` en `minotaur.dat`
+y envía las dos primeras líneas al comando `tail`,
+que luego imprime la segunda línea de `minotaur.dat`.
+Para la tercera iteración, `$filename` se convierte en
+`unicorn.dat`, por lo que la shell ejecuta el comando `head` en ese archivo,
+y `tail` en la salida de eso.
+Dado que la lista solo tenía tres elementos, la shell sale del bucle `for`.
+
+::::::::::::::::::::::::::::::::::::::::: destacado
+
+## Mismos símbolos, significados diferentes
+
+Aquí vemos `>` que se utiliza como un indicador de shell, mientras que `>` también
+se utiliza para redirigir la salida.
+De manera similar, `$` se utiliza como un indicador de shell, pero, como vimos anteriormente,
+también se utiliza para solicitar a la shell que obtenga el valor de una variable.
+
+Si la *shell* imprime `>` o `$`, entonces espera que escribas algo,
+y el símbolo es un indicador.
+
+Si *tú* escribes `>` o `$` tú mismo, es una instrucción tuya de que
+la shell debe redirigir la salida o obtener el valor de una variable.
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+Al utilizar variables, también es
+posible colocar los nombres entre llaves para delimitar claramente el nombre de la variable:
+`$filename` es equivalente a `${filename}`, pero es diferente de
+`${file}name`. Es posible que encuentres esta notación en los programas de otras personas.
+
+Hemos llamado a la variable de este bucle `filename`
+para que su propósito sea más claro para los lectores humanos.
+A la propia shell no le importa cómo se llame la variable;
+si escribimos este bucle como:
 
 ```bash
 $ for x in basilisk.dat minotaur.dat unicorn.dat
-> do
+> hacer
 >     head -n 2 $x | tail -n 1
-> done
+> hecho
 ```
 
-or:
+o:
 
 ```bash
 $ for temperature in basilisk.dat minotaur.dat unicorn.dat
-> do
+> hacer
 >     head -n 2 $temperature | tail -n 1
-> done
+> hecho
 ```
 
-it would work exactly the same way.
-*Don't do this.*
-Programs are only useful if people can understand them,
-so meaningless names (like `x`) or misleading names (like `temperature`)
-increase the odds that the program won't do what its readers think it does.
+Funcionaría exactamente de la misma manera.
+*No hagas esto.*
+Los programas solo son útiles si las personas pueden entenderlos,
+por lo que los nombres sin sentido (como `x`) o los nombres engañosos (como `temperature`)
+aumentan las posibilidades de que el programa no haga lo que sus lectores piensan que hace.
 
-In the above examples, the variables (`thing`, `filename`, `x` and `temperature`)
-could have been given any other name, as long as it is meaningful to both the person
-writing the code and the person reading it.
+En los ejemplos anteriores, las variables (`thing`, `filename`, `x` y `temperature`)
+podrían haber tenido cualquier otro nombre, siempre que tenga un significado tanto para la persona
+que escribe el código como para la persona que lo lee.
 
-Note also that loops can be used for other things than filenames, like a list of numbers
-or a subset of data.
+También hay que tener en cuenta que los bucles se pueden usar para otras cosas que no sean nombres de archivo, como una lista de números
+o un subconjunto de datos.
 
-:::::::::::::::::::::::::::::::::::::::  challenge
+::::::::::::::::::::::::::::::::::::::: desafío
 
-## Write your own loop
+## Escribe tu propio bucle
 
-How would you write a loop that echoes all 10 numbers from 0 to 9?
+¿Cómo escribirías un bucle que muestre los 10 números del 0 al 9?
 
-:::::::::::::::  solution
+::::::::::::::: solución
 
-## Solution
+## Solución
 
 ```bash
 $ for loop_variable in 0 1 2 3 4 5 6 7 8 9
-> do
+> hacer
 >     echo $loop_variable
-> done
+> hecho
 ```
 
 ```output
@@ -211,53 +209,52 @@ $ for loop_variable in 0 1 2 3 4 5 6 7 8 9
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::::::::::::::::::  challenge
+::::::::::::::::::::::::::::::::::::::: desafío
 
-## Variables in Loops
+## Variables en Bucles
 
-This exercise refers to the `shell-lesson-data/exercise-data/alkanes` directory.
-`ls *.pdb` gives the following output:
+Este ejercicio se refiere al directorio `shell-lesson-data/exercise-data/alkanes`.
+`ls *.pdb` muestra el siguiente resultado:
 
 ```output
 cubane.pdb  ethane.pdb  methane.pdb  octane.pdb  pentane.pdb  propane.pdb
 ```
 
-What is the output of the following code?
+¿Cuál es el resultado del siguiente código?
 
 ```bash
 $ for datafile in *.pdb
-> do
+> hacer
 >     ls *.pdb
-> done
+> hecho
 ```
 
-Now, what is the output of the following code?
+Ahora, ¿cuál es el resultado del siguiente código?
 
 ```bash
 $ for datafile in *.pdb
-> do
+> hacer
 >     ls $datafile
-> done
+> hecho
 ```
 
-Why do these two loops give different outputs?
+¿Por qué estos dos bucles producen resultados diferentes?
 
-:::::::::::::::  solution
+::::::::::::::: solución
 
-## Solution
+## Solución
 
-The first code block gives the same output on each iteration through
-the loop.
-Bash expands the wildcard `*.pdb` within the loop body (as well as
-before the loop starts) to match all files ending in `.pdb`
-and then lists them using `ls`.
-The expanded loop would look like this:
+El primer bloque de código produce el mismo resultado en cada iteración del bucle.
+Bash expande el comodín *.pdb dentro del cuerpo del bucle (así como
+antes de que el bucle comience) para que coincida con todos los archivos que terminan en .pdb,
+y luego los lista usando `ls`.
+El bucle expandido se vería así:
 
 ```bash
 $ for datafile in cubane.pdb  ethane.pdb  methane.pdb  octane.pdb  pentane.pdb  propane.pdb
-> do
+> hacer
 >     ls cubane.pdb  ethane.pdb  methane.pdb  octane.pdb  pentane.pdb  propane.pdb
-> done
+> hecho
 ```
 
 ```output
@@ -269,9 +266,10 @@ cubane.pdb  ethane.pdb  methane.pdb  octane.pdb  pentane.pdb  propane.pdb
 cubane.pdb  ethane.pdb  methane.pdb  octane.pdb  pentane.pdb  propane.pdb
 ```
 
-The second code block lists a different file on each loop iteration.
-The value of the `datafile` variable is evaluated using `$datafile`,
-and then listed using `ls`.
+El segundo bloque de código lista un archivo diferente en cada iteración.
+El valor de la variable `datafile` se evalúa usando `$datafile`,
+y luego se lista usando `ls`.
+
 
 ```output
 cubane.pdb
@@ -286,56 +284,57 @@ propane.pdb
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::::::::::::::::::  challenge
+::::::::::::::::::::::::::::::::::::::: desafío
 
-## Limiting Sets of Files
+## Limitar Conjuntos de Archivos
 
-What would be the output of running the following loop in the
-`shell-lesson-data/exercise-data/alkanes` directory?
+¿Cuál sería la salida de ejecutar el siguiente bucle en el
+directorio `shell-lesson-data/exercise-data/alkanes`?
 
 ```bash
 $ for filename in c*
-> do
+> hacer
 >     ls $filename
-> done
+> hecho
 ```
 
-1. No files are listed.
-2. All files are listed.
-3. Only `cubane.pdb`, `octane.pdb` and `pentane.pdb` are listed.
-4. Only `cubane.pdb` is listed.
+1. No se enumeran los archivos.
+2. Se enumeran todos los archivos.
+3. Solo se enumeran `cubane.pdb`, `octane.pdb` y `pentane.pdb`.
+4. Solo se enumera `cubane.pdb`.
 
-:::::::::::::::  solution
+::::::::::::::: solución
 
-## Solution
+## Solución
 
-4 is the correct answer. `*` matches zero or more characters, so any file name starting with
-the letter c, followed by zero or more other characters will be matched.
+La opción correcta es 4. `*` coincide con cero o más caracteres, por lo que se
+coincidirán los nombres de archivo con cero o más caracteres antes de la letra c y cero o más caracteres
+después de la letra c.
 
 
 :::::::::::::::::::::::::
 
-How would the output differ from using this command instead?
+¿Cómo se diferenciaría la salida de usar este comando en su lugar?
 
 ```bash
 $ for filename in *c*
-> do
+> hacer
 >     ls $filename
-> done
+> hecho
 ```
 
-1. The same files would be listed.
-2. All the files are listed this time.
-3. No files are listed this time.
-4. The files `cubane.pdb` and `octane.pdb` will be listed.
-5. Only the file `octane.pdb` will be listed.
+1. Se enumerarían los mismos archivos.
+2. Se enumeran todos los archivos esta vez.
+3. No se enumeran archivos esta vez.
+4. Se enumerarían los archivos `cubane.pdb` y `octane.pdb`.
+5. Solo se enumera el archivo `octane.pdb`.
 
-:::::::::::::::  solution
+::::::::::::::: solución
 
-## Solution
+## Solución
 
-4 is the correct answer. `*` matches zero or more characters, so a file name with zero or more
-characters before a letter c and zero or more characters after the letter c will be matched.
+La opción correcta es 4. `*` coincide con cero o más caracteres, por lo que se coincidirá con un nombre de archivo con cero o más
+caracteres antes de la letra c y cero o más caracteres después de la letra c.
 
 
 
@@ -343,11 +342,11 @@ characters before a letter c and zero or more characters after the letter c will
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::::::::::::::::::  challenge
+::::::::::::::::::::::::::::::::::::::: desafío
 
-## Saving to a File in a Loop - Part One
+## Guardando en un archivo en un Bucle - Parte Uno
 
-In the `shell-lesson-data/exercise-data/alkanes` directory, what is the effect of this loop?
+En el directorio `shell-lesson-data/exercise-data/alkanes`, ¿cuál es el efecto de este bucle?
 
 ```bash
 for alkanes in *.pdb
@@ -357,35 +356,35 @@ do
 done
 ```
 
-1. Prints `cubane.pdb`, `ethane.pdb`, `methane.pdb`, `octane.pdb`, `pentane.pdb` and
-  `propane.pdb`, and the text from `propane.pdb` will be saved to a file called `alkanes.pdb`.
-2. Prints `cubane.pdb`, `ethane.pdb`, and `methane.pdb`, and the text from all three files
-  would be concatenated and saved to a file called `alkanes.pdb`.
-3. Prints `cubane.pdb`, `ethane.pdb`, `methane.pdb`, `octane.pdb`, and `pentane.pdb`,
-  and the text from `propane.pdb` will be saved to a file called `alkanes.pdb`.
-4. None of the above.
+1. Imprime `cubane.pdb`, `ethane.pdb`, `methane.pdb`, `octane.pdb` y
+   `pentane.pdb`, y el texto de `pentane.pdb` se guardará en un archivo llamado `alkanes.pdb`.
+2. Imprime `cubane.pdb`, `ethane.pdb` y `methane.pdb`, y el texto de los tres archivos
+   se concatenaría y se guardaría en un archivo llamado `alkanes.pdb`.
+3. Imprime `cubane.pdb`, `ethane.pdb`, `methane.pdb`, `octane.pdb` y `pentane.pdb`,
+   y el texto de `pentane.pdb` se guardará en un archivo llamado `alkanes.pdb`.
+4. Ninguna de las anteriores.
 
-:::::::::::::::  solution
+::::::::::::::: solución
 
-## Solution
+## Solución
 
-1. The text from each file in turn gets written to the `alkanes.pdb` file.
-  However, the file gets overwritten on each loop iteration, so the final content of
-  `alkanes.pdb`
-  is the text from the `propane.pdb` file.
-  
-  
+La opción correcta es 1. El texto de cada archivo se escribirá en el archivo `alkanes.pdb` uno tras otro.
+Sin embargo, el archivo se sobrescribirá en cada iteración del bucle, por lo que el contenido final de
+`alkanes.pdb`
+es el texto del archivo `pentane.pdb`.
+
+
 
 :::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::::::::::::::::::  challenge
+::::::::::::::::::::::::::::::::::::::: desafío
 
-## Saving to a File in a Loop - Part Two
+## Guardando en un archivo en un Bucle - Parte Dos
 
-Also in the `shell-lesson-data/exercise-data/alkanes` directory,
-what would be the output of the following loop?
+También en el directorio `shell-lesson-data/exercise-data/alkanes`,
+¿cuál sería la salida del siguiente bucle?
 
 ```bash
 for datafile in *.pdb
@@ -394,215 +393,53 @@ do
 done
 ```
 
-1. All of the text from `cubane.pdb`, `ethane.pdb`, `methane.pdb`, `octane.pdb`, and
-  `pentane.pdb` would be concatenated and saved to a file called `all.pdb`.
-2. The text from `ethane.pdb` will be saved to a file called `all.pdb`.
-3. All of the text from `cubane.pdb`, `ethane.pdb`, `methane.pdb`, `octane.pdb`, `pentane.pdb`
-  and `propane.pdb` would be concatenated and saved to a file called `all.pdb`.
-4. All of the text from `cubane.pdb`, `ethane.pdb`, `methane.pdb`, `octane.pdb`, `pentane.pdb`
-  and `propane.pdb` would be printed to the screen and saved to a file called `all.pdb`.
+1. Todo el texto de `cubane.pdb`, `ethane.pdb`, `methane.pdb`, `octane.pdb` y
+   `pentane.pdb` se concatenaría y se guardaría en un archivo llamado `all.pdb`.
+2. Se guardará el texto de `ethane.pdb` en un archivo llamado `all.pdb`.
+3. Todo el texto de `cubane.pdb`, `ethane.pdb`, `methane.pdb`, `octane.pdb` y `pentane.pdb`
+   se concatenaría y se imprimiría en la pantalla y se guardaría en un archivo llamado `all.pdb`.
 
-:::::::::::::::  solution
+4. Todo el texto de `cubane.pdb`, `ethane.pdb`, `methane.pdb`, `octane.pdb` y `pentane.pdb`
+   se imprimirá en la pantalla y se guardará en un archivo llamado `all.pdb`.
 
-## Solution
+::::::::::::::: solución
 
-3 is the correct answer. `>>` appends to a file, rather than overwriting it with the redirected
-output from a command.
-Given the output from the `cat` command has been redirected, nothing is printed to the screen.
+## Solución
 
+3 es la respuesta correcta. `>>` anexa a un archivo, en lugar de sobrescribirlo con la salida redirigida de un comando.
+Dado que la salida redirigida no produce ningún resultado, es difícil verificar
+que el bucle esté funcionando correctamente. Sin embargo, aprendimos antes cómo imprimir cadenas
+usando `echo`, y podemos modificar el bucle para usar `echo` y así imprimir nuestros comandos sin
+ejecutarlos realmente. Como tal, podemos verificar qué comandos *se ejecutarían* en el
+bucle no modificado.
 
+El siguiente diagrama
+muestra lo que sucede cuando se ejecuta el bucle modificado y demuestra cómo
+el uso juicioso de `echo` es una buena técnica de depuración.
 
-:::::::::::::::::::::::::
+![](fig/shell_script_for_loop_flow_chart.svg){alt='El bucle "for datafile in .pdb; do echo cp $datafile original-$datafile;done" asignará sucesivamente el nombre de todos los archivos ".pdb" en su directorio actual a la variable "$datafile" y luego ejecutará el comando do con el nombre del archivo como parámetro. Con los archivos "basilisk.dat", "minotaur.dat" y "unicorn.dat" en el directorio actual, el bucle invocará sucesivamente el comando echo tres veces e imprimirá tres líneas: "cp ###basislisk.dat original-basilisk.dat", luego "cp minotaur.datoriginal-minotaur.dat" y, finalmente "cp unicorn.datoriginal-unicorn.dat"'}
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
+## El Proceso de Nelle: Procesando Archivos
 
-Let's continue with our example in the `shell-lesson-data/exercise-data/creatures` directory.
-Here's a slightly more complicated loop:
+Nelle está lista ahora para procesar sus archivos de datos utilizando `goostats.sh` ---
+un script de shell escrito por su supervisor. Esto calcula algunas estadísticas a partir de un archivo de muestra de proteínas y toma dos argumentos:
 
-```bash
-$ for filename in *.dat
-> do
->     echo $filename
->     head -n 100 $filename | tail -n 20
-> done
-```
+1. un archivo de entrada (que contiene los datos en bruto)
+2. un archivo de salida (para almacenar las estadísticas calculadas)
 
-The shell starts by expanding `*.dat` to create the list of files it will process.
-The **loop body**
-then executes two commands for each of those files.
-The first command, `echo`, prints its command-line arguments to standard output.
-For example:
-
-```bash
-$ echo hello there
-```
-
-prints:
-
-```output
-hello there
-```
-
-In this case,
-since the shell expands `$filename` to be the name of a file,
-`echo $filename` prints the name of the file.
-Note that we can't write this as:
-
-```bash
-$ for filename in *.dat
-> do
->     $filename
->     head -n 100 $filename | tail -n 20
-> done
-```
-
-because then the first time through the loop,
-when `$filename` expanded to `basilisk.dat`, the shell would try to run `basilisk.dat` as
-a program.
-Finally,
-the `head` and `tail` combination selects lines 81-100
-from whatever file is being processed
-(assuming the file has at least 100 lines).
-
-:::::::::::::::::::::::::::::::::::::::::  callout
-
-## Spaces in Names
-
-Spaces are used to separate the elements of the list
-that we are going to loop over. If one of those elements
-contains a space character, we need to surround it with
-quotes, and do the same thing to our loop variable.
-Suppose our data files are named:
-
-```source
-red dragon.dat
-purple unicorn.dat
-```
-
-To loop over these files, we would need to add double quotes like so:
-
-```bash
-$ for filename in "red dragon.dat" "purple unicorn.dat"
-> do
->     head -n 100 "$filename" | tail -n 20
-> done
-```
-
-It is simpler to avoid using spaces (or other special characters) in filenames.
-
-The files above don't exist, so if we run the above code, the `head` command will be unable
-to find them; however, the error message returned will show the name of the files it is
-expecting:
-
-```error
-head: cannot open ‘red dragon.dat' for reading: No such file or directory
-head: cannot open ‘purple unicorn.dat' for reading: No such file or directory
-```
-
-Try removing the quotes around `$filename` in the loop above to see the effect of the quote
-marks on spaces. Note that we get a result from the loop command for unicorn.dat
-when we run this code in the `creatures` directory:
-
-```output
-head: cannot open ‘red' for reading: No such file or directory
-head: cannot open ‘dragon.dat' for reading: No such file or directory
-head: cannot open ‘purple' for reading: No such file or directory
-CGGTACCGAA
-AAGGGTCGCG
-CAAGTGTTCC
-...
-```
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-We would like to modify each of the files in `shell-lesson-data/exercise-data/creatures`,
-but also save a version of the original files. We want to copy the original files to new
-files named `original-basilisk.dat` and `original-unicorn.dat`, for example. We can't use:
-
-```bash
-$ cp *.dat original-*.dat
-```
-
-because that would expand to:
-
-```bash
-$ cp basilisk.dat minotaur.dat unicorn.dat original-*.dat
-```
-
-This wouldn't back up our files, instead we get an error:
-
-```error
-cp: target `original-*.dat' is not a directory
-```
-
-This problem arises when `cp` receives more than two inputs. When this happens, it expects the
-last input to be a directory where it can copy all the files it was passed. Since there is
-no directory named `original-*.dat` in the `creatures` directory, we get an error.
-
-Instead, we can use a loop:
-
-```bash
-$ for filename in *.dat
-> do
->     cp $filename original-$filename
-> done
-```
-
-This loop runs the `cp` command once for each filename.
-The first time,
-when `$filename` expands to `basilisk.dat`,
-the shell executes:
-
-```bash
-cp basilisk.dat original-basilisk.dat
-```
-
-The second time, the command is:
-
-```bash
-cp minotaur.dat original-minotaur.dat
-```
-
-The third and last time, the command is:
-
-```bash
-cp unicorn.dat original-unicorn.dat
-```
-
-Since the `cp` command does not normally produce any output, it's hard to check
-that the loop is working correctly. However, we learned earlier how to print strings
-using `echo`, and we can modify the loop to use `echo` to print our commands without
-actually executing them. As such we can check what commands *would be* run in the
-unmodified loop.
-
-The following diagram
-shows what happens when the modified loop is executed and demonstrates how the
-judicious use of `echo` is a good debugging technique.
-
-![](fig/shell_script_for_loop_flow_chart.svg){alt='The for loop "for filename in .dat; do echo cp $filename original-$filename;done" will successively assign the names of all ".dat" files in your currentdirectory to the variable "$filename" and then execute the command. With thefiles "basilisk.dat", "minotaur.dat" and "unicorn.dat" in the current directorythe loop will successively call the echo command three times and print threelines: "cp basislisk.dat original-basilisk.dat", then "cp minotaur.datoriginal-minotaur.dat" and finally "cp unicorn.datoriginal-unicorn.dat"'}
-
-## Nelle's Pipeline: Processing Files
-
-Nelle is now ready to process her data files using `goostats.sh` ---
-a shell script written by her supervisor. This calculates some statistics from a
-protein sample file and takes two arguments:
-
-1. an input file (containing the raw data)
-2. an output file (to store the calculated statistics)
-
-Since she's still learning how to use the shell,
-she decides to build up the required commands in stages.
-Her first step is to make sure that she can select the right input files --- remember,
-these are ones whose names end in 'A' or 'B', rather than 'Z'.
-Moving to the `north-pacific-gyre` directory, Nelle types:
+Como aún está aprendiendo cómo usar la shell,
+ella decide construir los comandos requeridos en etapas.
+Su primer paso es asegurarse de que pueda seleccionar los archivos de entrada correctos: recuerda,
+estos son aquellos cuyos nombres terminan en 'A' o 'B', en lugar de 'Z'.
+Dirigiéndose al directorio `north-pacific-gyre`, Nelle escribe:
 
 ```bash
 $ cd
-$ cd Desktop/shell-lesson-data/north-pacific-gyre
+$ cd Escritorio/shell-lesson-data/north-pacific-gyre
 $ for datafile in NENE*A.txt NENE*B.txt
-> do
+> hacer
 >     echo $datafile
-> done
+> hecho
 ```
 
 ```output
@@ -614,16 +451,15 @@ NENE02043A.txt
 NENE02043B.txt
 ```
 
-Her next step is to decide
-what to call the files that the `goostats.sh` analysis program will create.
-Prefixing each input file's name with 'stats' seems simple,
-so she modifies her loop to do that:
+Su próximo paso es decidir cómo llamar a los archivos que el programa de análisis `goostats.sh` creará.
+Agregar el prefijo de cada nombre de archivo de entrada con 'stats' parece simple,
+así que ella modifica su bucle para hacer eso:
 
 ```bash
 $ for datafile in NENE*A.txt NENE*B.txt
-> do
+> hacer
 >     echo $datafile stats-$datafile
-> done
+> hecho
 ```
 
 ```output
@@ -635,55 +471,55 @@ NENE02043A.txt stats-NENE02043A.txt
 NENE02043B.txt stats-NENE02043B.txt
 ```
 
-She hasn't actually run `goostats.sh` yet,
-but now she's sure she can select the right files and generate the right output filenames.
+Aún no ha ejecutado `goostats.sh`,
+pero ahora está segura de que puede seleccionar los archivos correctos y generar los nombres de salida correctos.
 
-Typing in commands over and over again is becoming tedious,
-though,
-and Nelle is worried about making mistakes,
-so instead of re-entering her loop,
-she presses <kbd>↑</kbd>.
-In response,
-the shell redisplays the whole loop on one line
-(using semi-colons to separate the pieces):
-
-```bash
-$ for datafile in NENE*A.txt NENE*B.txt; do echo $datafile stats-$datafile; done
-```
-
-Using the <kbd>←</kbd>,
-Nelle navigates to the `echo` command and changes it to `bash goostats.sh`:
+Escribir comandos una y otra vez se está volviendo tedioso,
+sin embargo,
+y Nelle está preocupada por cometer errores,
+por lo que en lugar de volver a ingresar su bucle,
+presiona <kbd>↑</kbd>.
+Como respuesta,
+la shell muestra nuevamente el bucle completo en una línea
+(usando puntos y coma para separar las partes):
 
 ```bash
-$ for datafile in NENE*A.txt NENE*B.txt; do bash goostats.sh $datafile stats-$datafile; done
+$ for datafile in NENE*A.txt NENE*B.txt; hacer echo $datafile stats-$datafile; hecho
 ```
 
-When she presses <kbd>Enter</kbd>,
-the shell runs the modified command.
-However, nothing appears to happen --- there is no output.
-After a moment, Nelle realizes that since her script doesn't print anything to the screen
-any longer, she has no idea whether it is running, much less how quickly.
-She kills the running command by typing <kbd>Ctrl</kbd>\+<kbd>C</kbd>,
-uses <kbd>↑</kbd> to repeat the command,
-and edits it to read:
+Usando <kbd>←</kbd>,
+Nelle navega hacia el comando `echo` y lo cambia a `bash goostats.sh`:
 
 ```bash
-$ for datafile in NENE*A.txt NENE*B.txt; do echo $datafile;
-bash goostats.sh $datafile stats-$datafile; done
+$ for datafile in NENE*A.txt NENE*B.txt; hacer bash goostats.sh $datafile stats-$datafile; hecho
 ```
 
-:::::::::::::::::::::::::::::::::::::::::  callout
+Cuando presiona <kbd>Enter</kbd>,
+la shell ejecuta el comando modificado.
+Sin embargo, no parece suceder nada, no hay salida.
+Después de un momento, Nelle se da cuenta de que como su script ya no imprime nada en la pantalla,
+no tiene idea de si se está ejecutando, y mucho menos de qué tan rápido.
+Detiene el comando en ejecución escribiendo <kbd>Ctrl</kbd>\+<kbd>C</kbd>,
+usa <kbd>↑</kbd> para repetir el comando,
+y lo edita para que diga:
 
-## Beginning and End
+```bash
+$ for datafile in NENE*A.txt NENE*B.txt; hacer echo $datafile;
+bash goostats.sh $datafile stats-$datafile; hecho
+```
 
-We can move to the beginning of a line in the shell by typing <kbd>Ctrl</kbd>\+<kbd>A</kbd>
-and to the end using <kbd>Ctrl</kbd>\+<kbd>E</kbd>.
+::::::::::::::::::::::::::::::::::::::::: destacado
+
+## Principio y fin
+
+Podemos movernos al principio de una línea en la shell escribiendo <kbd>Ctrl</kbd>\+<kbd>A</kbd>
+y al final usando <kbd>Ctrl</kbd>\+<kbd>E</kbd>.
 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-When she runs her program now,
-it produces one line of output every five seconds or so:
+Cuando ejecuta su programa ahora,
+produce una línea de salida cada cinco segundos aproximadamente:
 
 ```output
 NENE01729A.txt
@@ -692,176 +528,88 @@ NENE01736A.txt
 ...
 ```
 
-1518 times 5 seconds,
-divided by 60,
-tells her that her script will take about two hours to run.
-As a final check,
-she opens another terminal window,
-goes into `north-pacific-gyre`,
-and uses `cat stats-NENE01729B.txt`
-to examine one of the output files.
-It looks good,
-so she decides to get some coffee and catch up on her reading.
+1518 veces 5 segundos,
+dividido por 60,
+le indica que su script tomará aproximadamente dos horas en ejecutarse.
+Como última comprobación,
+abre otra ventana de terminal,
+ingresa al directorio `north-pacific-gyre`,
+y usa `cat stats-NENE01729B.txt`
+para examinar uno de los archivos de salida.
+Se ve bien,
+así que decide tomar un café y ponerse al día con su lectura.
 
-:::::::::::::::::::::::::::::::::::::::::  callout
+::::::::::::::::::::::::::::::::::::::::: destacado
 
-## Those Who Know History Can Choose to Repeat It
+## Quien Conoce la Historia Puede Elegir Repetirla
 
-Another way to repeat previous work is to use the `history` command to
-get a list of the last few hundred commands that have been executed, and
-then to use `!123` (where '123' is replaced by the command number) to
-repeat one of those commands. For example, if Nelle types this:
+Otra forma de repetir trabajos anteriores es usar el comando `history`
+para obtener una lista de los últimos cientos de comandos que se han ejecutado y
+luego usar `!123` (donde '123' se reemplaza por el número del comando) para
+repetir uno de esos comandos. Por ejemplo, si Nelle escribe esto:
 
 ```bash
 $ history | tail -n 5
 ```
 
 ```output
-456  for datafile in NENE*A.txt NENE*B.txt; do   echo $datafile stats-$datafile; done
-457  for datafile in NENE*A.txt NENE*B.txt; do echo $datafile stats-$datafile; done
-458  for datafile in NENE*A.txt NENE*B.txt; do bash goostats.sh $datafile stats-$datafile; done
-459  for datafile in NENE*A.txt NENE*B.txt; do echo $datafile; bash goostats.sh $datafile
-stats-$datafile; done
+456  for datafile in NENE*A.txt NENE*B.txt; hacer   echo $datafile stats-$datafile; hecho
+457  for datafile in NENE*A.txt NENE*B.txt; hacer echo $datafile stats-$datafile; hecho
+458  for datafile in NENE*A.txt NENE*B.txt; hacer bash goostats.sh $datafile stats-$datafile; hecho
+459  for datafile in NENE*A.txt NENE*B.txt; hacer echo $datafile; bash goostats.sh $datafile
+stats-$datafile; hecho
 460  history | tail -n 5
 ```
 
-then she can re-run `goostats.sh` on the files simply by typing
+entonces puede volver a ejecutar `goostats.sh` en los archivos simplemente escribiendo
 `!459`.
 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::::::::::::::::::::  callout
+::::::::::::::::::::::::::::::::::::::::: destacado
 
-## Other History Commands
+## Otros Comandos de Historia
 
-There are a number of other shortcut commands for getting at the history.
+Hay varios otros comandos rápidos para acceder a la historia.
 
-- <kbd>Ctrl</kbd>\+<kbd>R</kbd> enters a history search mode 'reverse-i-search' and finds the
-  most recent command in your history that matches the text you enter next.
-  Press <kbd>Ctrl</kbd>\+<kbd>R</kbd> one or more additional times to search for earlier matches.
-  You can then use the left and right arrow keys to choose that line and edit
-  it then hit <kbd>Return</kbd> to run the command.
-- `!!` retrieves the immediately preceding command
-  (you may or may not find this more convenient than using <kbd>↑</kbd>)
-- `!$` retrieves the last word of the last command.
-  That's useful more often than you might expect: after
-  `bash goostats.sh NENE01729B.txt stats-NENE01729B.txt`, you can type
-  `less !$` to look at the file `stats-NENE01729B.txt`, which is
-  quicker than doing <kbd>↑</kbd> and editing the command-line.
-  
+- <kbd>Ctrl</kbd>\+<kbd>R</kbd> entra en el modo de búsqueda de la historia 'reverse-i-search' y encuentra el
+  comando más reciente en tu historial que coincida con el texto que escribas a continuación.
+  Presiona <kbd>Ctrl</kbd>\+<kbd>R</kbd> una o más veces adicionales para buscar coincidencias anteriores.
+  Luego puedes usar las teclas de flecha izquierda y derecha para elegir esa línea y editarla, luego presionar <kbd>Return</kbd> para ejecutar el comando.
+- `!!` recupera el comando inmediatamente anterior
+  (puedes encontrar esto más conveniente o no en comparación con usar <kbd>↑</kbd>)
+- `!$` recupera la última palabra del último comando.
+  Eso es útil con más frecuencia de lo que podrías pensar: después
+  de `bash goostats.sh NENE01729B.txt stats-NENE01729B.txt`, puedes escribir
+  `less !$` para ver el archivo `stats-NENE01729B.txt`, lo cual es
+  más rápido que usar <kbd>↑</kbd> y editar la línea de comandos.
+
+
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::::::::::::::::::  challenge
+::::::::::::::::::::::::::::::::::::::::: destacado
 
-## Doing a Dry Run
+## Autocompletar
 
-A loop is a way to do many things at once --- or to make many mistakes at
-once if it does the wrong thing. One way to check what a loop *would* do
-is to `echo` the commands it would run instead of actually running them.
+Si presionas <kbd>Tab</kbd> después de escribir el inicio de un nombre de archivo o directorio, la shell intentará completar automáticamente el nombre por ti. Si hay varias opciones posibles, presionar <kbd>Tab</kbd> dos veces mostrará todas las opciones, para que puedas escribir o seleccionar la correcta.
 
-Suppose we want to preview the commands the following loop will execute
-without actually running those commands:
-
-```bash
-$ for datafile in *.pdb
-> do
->     cat $datafile >> all.pdb
-> done
-```
-
-What is the difference between the two loops below, and which one would we
-want to run?
-
-```bash
-# Version 1
-$ for datafile in *.pdb
-> do
->     echo cat $datafile >> all.pdb
-> done
-```
-
-```bash
-# Version 2
-$ for datafile in *.pdb
-> do
->     echo "cat $datafile >> all.pdb"
-> done
-```
-
-:::::::::::::::  solution
-
-## Solution
-
-The second version is the one we want to run.
-This prints to screen everything enclosed in the quote marks, expanding the
-loop variable name because we have prefixed it with a dollar sign.
-It also *does not* modify nor create the file `all.pdb`, as the `>>`
-is treated literally as part of a string rather than as a
-redirection instruction.
-
-The first version appends the output from the command `echo cat $datafile`
-to the file, `all.pdb`. This file will just contain the list;
-`cat cubane.pdb`, `cat ethane.pdb`, `cat methane.pdb` etc.
-
-Try both versions for yourself to see the output! Be sure to open the
-`all.pdb` file to view its contents.
-
-
-
-:::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::::::::::::::::::  challenge
+::::::::::::::::::::::::::::::::::::::::: destacado
 
-## Nested Loops
+## Historia de la Shell
 
-Suppose we want to set up a directory structure to organize
-some experiments measuring reaction rate constants with different compounds
-*and* different temperatures.  What would be the
-result of the following code:
+Para ver y buscar tu historial de comandos en un archivo, en lugar de en la memoria, puedes agregar el siguiente par de líneas a tu archivo `~/.bash_profile` o `~/.bashrc`:
 
 ```bash
-$ for species in cubane ethane methane
-> do
->     for temperature in 25 30 37 40
->     do
->         mkdir $species-$temperature
->     done
-> done
+export HISTFILESIZE=5000  # Esto conservará los últimos 5000 comandos de tu historial.
+export HISTSIZE=2000      # Esto te permitirá escribir los últimos 2000 comandos desde tu historial.
+export HISTCONTROL=ignoredups  # Esto evita que comandos duplicados se escriban en tu historial.
+export HISTTIMEFORMAT="%Y-%m-%d %T "  # Esto te muestra la fecha y la marca de tiempo en tu historial.
+shopt -s histappend    # Esto asegura que el historial se mantendrá cuando cierres una terminal y abra otra.
 ```
 
-:::::::::::::::  solution
-
-## Solution
-
-We have a nested loop, i.e. contained within another loop, so for each species
-in the outer loop, the inner loop (the nested loop) iterates over the list of
-temperatures, and creates a new directory for each combination.
-
-Try running the code for yourself to see which directories are created!
-
-
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
-
-:::::::::::::::::::::::::::::::::::::::: keypoints
-
-- A `for` loop repeats commands once for every thing in a list.
-- Every `for` loop needs a variable to refer to the thing it is currently operating on.
-- Use `$name` to expand a variable (i.e., get its value). `${name}` can also be used.
-- Do not use spaces, quotes, or wildcard characters such as '\*' or '?' in filenames, as it complicates variable expansion.
-- Give files consistent names that are easy to match with wildcard patterns to make it easy to select them for looping.
-- Use the up-arrow key to scroll up through previous commands to edit and repeat them.
-- Use <kbd>Ctrl</kbd>\+<kbd>R</kbd> to search through the previously entered commands.
-- Use `history` to display recent commands, and `![number]` to repeat a command by number.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
+Estos comandos se ejecutarán automáticamente al abrir una nueva ventana de terminal o al iniciar sesión de nuevo en una máquina remota.

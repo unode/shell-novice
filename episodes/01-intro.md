@@ -1,112 +1,88 @@
 ---
-title: Introducing the Shell
+title: Presentando el Shell
 teaching: 5
 exercises: 0
 ---
 
-::::::::::::::::::::::::::::::::::::::: objectives
+::::::::::::::::::::::::::::::::::::::: objetivos
 
-- Explain how the shell relates to the keyboard, the screen, the operating system, and users' programs.
-- Explain when and why command-line interfaces should be used instead of graphical interfaces.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: questions
-
-- What is a command shell and why would I use one?
+- Explicar cómo se relaciona el shell con el teclado, la pantalla, el sistema operativo y los programas de los usuarios.
+- Explicar cuándo y por qué se deben usar interfaces de línea de comandos en lugar de interfaces gráficas.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-### Background
+:::::::::::::::::::::::::::::::::::::::: preguntas
 
-Humans and computers commonly interact in many different ways, such as through a keyboard and mouse,
-touch screen interfaces, or using speech recognition systems.
-The most widely used way to interact with personal computers is called a
-**graphical user interface** (GUI).
-With a GUI, we give instructions by clicking a mouse and using menu-driven interactions.
+- ¿Qué es un shell de comandos y por qué lo usaría?
 
-While the visual aid of a GUI makes it intuitive to learn,
-this way of delivering instructions to a computer scales very poorly.
-Imagine the following task:
-for a literature search, you have to copy the third line of one thousand text files in one thousand
-different directories and paste it into a single file.
-Using a GUI, you would not only be clicking at your desk for several hours,
-but you could potentially also commit an error in the process of completing this repetitive task.
-This is where we take advantage of the Unix shell.
-The Unix shell is both a **command-line interface** (CLI) and a scripting language,
-allowing such repetitive tasks to be done automatically and fast.
-With the proper commands, the shell can repeat tasks with or without some modification
-as many times as we want.
-Using the shell, the task in the literature example can be accomplished in seconds.
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
-### The Shell
+### Contexto
 
-The shell is a program where users can type commands.
-With the shell, it's possible to invoke complicated programs like climate modeling software
-or simple commands that create an empty directory with only one line of code.
-The most popular Unix shell is Bash (the Bourne Again SHell ---
-so-called because it's derived from a shell written by Stephen Bourne).
-Bash is the default shell on most modern implementations of Unix and in most packages that provide
-Unix-like tools for Windows.
-Note that 'Git Bash' is a piece of software that enables Windows users to use a Bash like interface
-when interacting with Git.
+Los humanos y las computadoras interactúan comúnmente de muchas formas diferentes, como a través de un teclado y un ratón, interfaces de pantalla táctil o usando sistemas de reconocimiento de voz.
+La forma más utilizada de interactuar con las computadoras personales se llama **interfaz gráfica de usuario** (GUI, por sus siglas en inglés).
+Con una GUI, damos instrucciones haciendo clic con el mouse y utilizando interacciones basadas en menús.
 
-Using the shell will take some effort and some time to learn.
-While a GUI presents you with choices to select, CLI choices are not automatically presented to you,
-so you must learn a few commands like new vocabulary in a language you're studying.
-However, unlike a spoken language, a small number of "words" (i.e. commands) gets you a long way,
-and we'll cover those essential few today.
+Si bien la ayuda visual de una GUI facilita su aprendizaje, la entrega de instrucciones a una computadora de esta manera no escala muy bien.
+Imagínese la siguiente tarea:
+para una búsqueda literaria, debe copiar la tercera línea de mil archivos de texto en mil directorios diferentes y pegarla en un solo archivo.
+Usando una GUI, no solo estaría haciendo clic en su escritorio durante varias horas, sino que también podría cometer un error en el proceso de completar esta tarea repetitiva.
+Aquí es donde aprovechamos el shell de Unix.
+El shell de Unix es tanto una **interfaz de línea de comandos** (CLI) como un lenguaje de script, lo que permite realizar tareas repetitivas automáticamente y rápidamente.
+Con los comandos adecuados, el shell puede repetir tareas con o sin alguna modificación tantas veces como queramos.
+Usando el shell, la tarea en el ejemplo literario se puede realizar en cuestión de segundos.
 
-The grammar of a shell allows you to combine existing tools into powerful
-pipelines and handle large volumes of data automatically. Sequences of
-commands can be written into a *script*, improving the reproducibility of
-workflows.
+### El Shell
 
-In addition, the command line is often the easiest way to interact with remote machines
-and supercomputers.
-Familiarity with the shell is near essential to run a variety of specialized tools and resources
-including high-performance computing systems.
-As clusters and cloud computing systems become more popular for scientific data crunching,
-being able to interact with the shell is becoming a necessary skill.
-We can build on the command-line skills covered here
-to tackle a wide range of scientific questions and computational challenges.
+El shell es un programa donde los usuarios pueden escribir comandos.
+Con el shell, es posible invocar programas complicados como software de modelado climático o comandos simples que crean un directorio vacío con solo una línea de código.
+El shell de Unix más popular es Bash (Bourne Again SHell, que significa "nacido nuevamente de una shell escrita por Stephen Bourne").
+Bash es el shell predeterminado en la mayoría de las implementaciones modernas de Unix y en la mayoría de los paquetes que proporcionan herramientas similares a Unix para Windows.
+Tenga en cuenta que 'Git Bash' es un software que permite a los usuarios de Windows utilizar una interfaz similar a Bash al interactuar con Git.
 
-Let's get started.
+Usar el shell requerirá un esfuerzo y un tiempo para aprender.
+Mientras que una GUI presenta opciones para seleccionar, las opciones de la CLI no se presentan automáticamente,
+por lo que debe aprender algunos comandos como un nuevo vocabulario en un idioma que está estudiando.
+Sin embargo, a diferencia de un idioma hablado, un pequeño número de "palabras" (es decir, comandos) lo llevará muy lejos,
+y hoy cubriremos esos pocos esenciales.
 
-When the shell is first opened, you are presented with a **prompt**,
-indicating that the shell is waiting for input.
+La gramática de un shell le permite combinar herramientas existentes en tuberías poderosas y manejar grandes volúmenes de datos automáticamente. Las secuencias de comandos pueden escribirse en un *script*, mejorando la reproducibilidad de los flujos de trabajo.
+
+Además, la línea de comandos es a menudo la forma más fácil de interactuar con máquinas remotas y supercomputadoras.
+La familiaridad con el shell es fundamental para ejecutar una variedad de herramientas y recursos especializados, incluidos los sistemas informáticos de alto rendimiento.
+A medida que los clústeres y los sistemas de computación en la nube se vuelven más populares para el procesamiento de datos científicos, la capacidad de interactuar con el shell se está convirtiendo en una habilidad necesaria.
+Podemos aprovechar las habilidades de línea de comandos cubiertas aquí para abordar una amplia gama de preguntas científicas y desafíos computacionales.
+
+Comencemos.
+
+Cuando se abre el shell por primera vez, se muestra un **prompt** (indicador),
+lo que indica que el shell está esperando una entrada.
 
 ```bash
 $
 ```
 
-The shell typically uses `$ ` as the prompt, but may use a different symbol.
-In the examples for this lesson, we'll show the prompt as `$ `.
-Most importantly, *do not type the prompt* when typing commands.
-Only type the command that follows the prompt.
-This rule applies both in these lessons and in lessons from other sources.
-Also note that after you type a command, you have to press the <kbd>Enter</kbd> key to execute it.
+El prompt utiliza típicamente `$` como indicador, pero puede usar un símbolo diferente.
+En los ejemplos de esta lección, mostraremos el prompt como `$`.
+Lo más importante es *no escribir el prompt* al escribir comandos.
+Solo se debe escribir el comando que sigue al prompt.
+Esta regla se aplica tanto en estas lecciones como en las lecciones de otras fuentes.
+También tenga en cuenta que después de escribir un comando, debe presionar la tecla <kbd>Enter</kbd> para ejecutarlo.
 
-The prompt is followed by a **text cursor**, a character that indicates the position where your
-typing will appear.
-The cursor is usually a flashing or solid block, but it can also be an underscore or a pipe.
-You may have seen it in a text editor program, for example.
+El prompt va seguido de un **cursor de texto**, un carácter que indica la posición donde aparecerá lo que escriba.
+El cursor suele ser un bloque parpadeante o sólido, pero también puede ser un guion bajo o una barra vertical.
+Tal vez lo haya visto en un programa editor de texto, por ejemplo.
 
-Note that your prompt might look a little different. In particular, most popular shell
-environments by default put your user name and the host name before the `$`. Such
-a prompt might look like, e.g.:
+Tenga en cuenta que su prompt puede verse un poco diferente. En particular, la mayoría de los entornos de shell populares por defecto colocan su nombre de usuario y el nombre del host antes del `$`. Un prompt así podría verse, por ejemplo:
 
 ```bash
 nelle@localhost $
 ```
 
-The prompt might even include more than this. Do not worry if your prompt is not
-just a short `$ `. This lesson does not depend on this additional information and it
-should also not get in your way. The only important item to focus on is the `$ `
-character itself and we will see later why.
+El prompt incluso puede incluir más que esto. No se preocupe si su prompt no es solo un breve `$`. Esta lección no depende de esta información adicional y tampoco debería interferir. Lo único importante en lo que debemos enfocarnos es el carácter `$` y veremos más adelante por qué.
 
-So let's try our first command, `ls`, which is short for listing.
-This command will list the contents of the current directory:
+Así que probemos nuestro primer comando, `ls`, que es la abreviatura de *listar*.
+Este comando mostrará el contenido del directorio actual:
 
 ```bash
 $ ls
@@ -119,10 +95,9 @@ Documents   Library     Music       Public
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
-## Command not found
+## Comando no encontrado
 
-If the shell can't find a program whose name is the command you typed, it
-will print an error message such as:
+Si el shell no puede encontrar un programa cuyo nombre es el comando que escribió, mostrará un mensaje de error como este:
 
 ```bash
 $ ks
@@ -132,62 +107,55 @@ $ ks
 ks: command not found
 ```
 
-This might happen if the command was mis-typed or if the program corresponding to that command
-is not installed.
+Esto puede suceder si el comando fue escrito incorrectamente o si el programa correspondiente a ese comando no está instalado.
 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Nelle's Pipeline: A Typical Problem
+## El Pipeline de Nelle: Un problema típico
 
-Nelle Nemo, a marine biologist,
-has just returned from a six-month survey of the
-[North Pacific Gyre](https://en.wikipedia.org/wiki/North_Pacific_Gyre),
-where she has been sampling gelatinous marine life in the
-[Great Pacific Garbage Patch](https://en.wikipedia.org/wiki/Great_Pacific_Garbage_Patch).
-She has 1520 samples that she's run through an assay machine to measure the relative abundance
-of 300 proteins.
-She needs to run these 1520 files through an imaginary program called `goostats.sh`.
-In addition to this huge task, she has to write up results by the end of the month, so her paper
-can appear in a special issue of *Aquatic Goo Letters*.
+Nelle Nemo, una bióloga marina,
+acaba de regresar de un estudio de seis meses del
+[giro del Pacífico Norte](https://en.wikipedia.org/wiki/North_Pacific_Gyre),
+donde ha estado muestreando vida marina gelatinosa en el
+[Remolino de Basura del Pacífico](https://en.wikipedia.org/wiki/Great_Pacific_Garbage_Patch).
+Tiene 1520 muestras que ha analizado utilizando una máquina de ensayo para medir la abundancia relativa de 300 proteínas.
+Necesita procesar estos 1520 archivos utilizando un programa imaginario llamado `goostats.sh`.
+Además de esta gran tarea, debe redactar los resultados antes de que termine el mes, para que su artículo pueda aparecer en un número especial de la revista *Aquatic Goo Letters*.
 
-If Nelle chooses to run `goostats.sh` by hand using a GUI,
-she'll have to select and open a file 1520 times.
-If `goostats.sh` takes 30 seconds to run each file, the whole process will take more than 12 hours
-of Nelle's attention.
-With the shell, Nelle can instead assign her computer this mundane task while she focuses
-her attention on writing her paper.
+Si Nelle elige ejecutar `goostats.sh` manualmente utilizando una GUI,
+tendrá que seleccionar y abrir un archivo 1520 veces.
+Si `goostats.sh` tarda 30 segundos en ejecutar cada archivo, todo el proceso le llevará más de 12 horas de atención a Nelle.
+Con el shell, Nelle puede asignarle esta tarea mundana a su computadora mientras ella se concentra en escribir su artículo.
 
-The next few lessons will explore the ways Nelle can achieve this.
-More specifically,
-the lessons explain how she can use a command shell to run the `goostats.sh` program,
-using loops to automate the repetitive steps of entering file names,
-so that her computer can work while she writes her paper.
+Las próximas lecciones explorarán las formas en que Nelle puede lograr esto.
+Más específicamente,
+las lecciones explicarán cómo puede usar el shell de comandos para ejecutar el programa `goostats.sh`,
+utilizando bucles para automatizar los pasos repetitivos de ingresar los nombres de los archivos,
+para que su computadora pueda trabajar mientras ella escribe su artículo.
 
-As a bonus,
-once she has put a processing pipeline together,
-she will be able to use it again whenever she collects more data.
+Como bono adicional,
+una vez que haya creado un pipeline de procesamiento,
+podrá utilizarlo nuevamente cada vez que recolecte más datos.
 
-In order to achieve her task, Nelle needs to know how to:
+Para lograr su tarea, Nelle necesita saber cómo:
 
-- navigate to a file/directory
-- create a file/directory
-- check the length of a file
-- chain commands together
-- retrieve a set of files
-- iterate over files
-- run a shell script containing her pipeline
+- navegar a un archivo o directorio
+- crear un archivo o directorio
+- verificar la longitud de un archivo
+- concatenar comandos
+- obtener un conjunto de archivos
+- iterar sobre archivos
+- ejecutar un script de shell que contenga su pipeline
 
 
 
-:::::::::::::::::::::::::::::::::::::::: keypoints
+:::::::::::::::::::::::::::::::::::::::: puntos clave
 
-- A shell is a program whose primary purpose is to read commands and run other programs.
-- This lesson uses Bash, the default shell in many implementations of Unix.
-- Programs can be run in Bash by entering commands at the command-line prompt.
-- The shell's main advantages are its high action-to-keystroke ratio, its support for automating repetitive tasks, and its capacity to access networked machines.
-- A significant challenge when using the shell can be knowing what commands need to be run and how to run them.
+- Un shell es un programa cuyo propósito principal es leer comandos y ejecutar otros programas.
+- Esta lección utiliza Bash, el shell predeterminado en muchas implementaciones de Unix.
+- Los programas se pueden ejecutar en Bash ingresando comandos en el prompt de línea de comandos.
+- Las principales ventajas del shell son su alta relación acción-tecla, su capacidad para automatizar tareas repetitivas y su capacidad para acceder a máquinas en red.
+- Un desafío importante al usar el shell puede ser saber qué comandos deben ejecutarse y cómo ejecutarlos.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
